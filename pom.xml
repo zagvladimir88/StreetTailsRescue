@@ -105,6 +105,11 @@
                 <version>${spring.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>1.6.4</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -119,7 +124,7 @@
                     <archive>
                         <index>true</index>
                         <manifest>
-                            <mainClass>src/main/java/com/zagvladimir/StreetTailsRescue</mainClass>
+                            <mainClass>src/main/java/com/zagvladimir/</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
