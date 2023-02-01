@@ -4,9 +4,9 @@ import com.zagvladimir.entity.User;
 import com.zagvladimir.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +21,7 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public List<User> findAll() {
-        return null;
+        return userRepository.findAll();
     }
 
     @Override
@@ -31,11 +31,12 @@ public class UserDAOImpl implements UserDAO{
 
     @Override
     public void update(User user) {
-
+        userRepository.save(user);
     }
 
     @Override
     public void delete(int id) {
+        userRepository.deleteById(id);
 
     }
 }

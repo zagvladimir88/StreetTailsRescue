@@ -1,9 +1,9 @@
 package com.zagvladimir.dao;
 
 import com.zagvladimir.entity.User;
-
 import java.util.List;
 import java.util.Optional;
+
 
 public interface UserDAO {
     Optional<User> findById(int id);
