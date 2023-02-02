@@ -1,6 +1,5 @@
-package com.zagvladimir.streettailsrescue.configuration;
+package com.zagvladimir.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
