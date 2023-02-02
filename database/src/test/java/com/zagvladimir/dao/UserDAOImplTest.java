@@ -1,14 +1,15 @@
 package com.zagvladimir.dao;
 
+import com.zagvladimir.BaseIntegrationTest;
+import com.zagvladimir.annotations.IT;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 
-@SpringBootTest
-@TestPropertySource(properties = {"spring.config.location = classpath:application-test.yml"})
-class UserDAOImplTest {
+//@SpringBootTest
+//@TestPropertySource(properties = {"spring.config.location = classpath:application-test.yml"})
+@IT
+class UserDAOImplTest extends BaseIntegrationTest {
 
     @Autowired
     private UserDAOImpl userDAO;
