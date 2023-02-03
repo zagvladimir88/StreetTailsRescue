@@ -21,9 +21,9 @@ create table if not exists users
     email             varchar(255),
     status            varchar(25)  default 'ACTIVE'::character varying,
     city              varchar(50),
-    registration_date timestamp(6) default CURRENT_TIMESTAMP(6),
-    creation_date     timestamp(6) default CURRENT_TIMESTAMP(6),
-    modification_date timestamp(6) default CURRENT_TIMESTAMP(6),
+    registration_date timestamp(3) default CURRENT_TIMESTAMP(3),
+    creation_date     timestamp(3) default CURRENT_TIMESTAMP(3),
+    modification_date timestamp(3) default CURRENT_TIMESTAMP(3),
     activation_code   varchar(255)
     );
 

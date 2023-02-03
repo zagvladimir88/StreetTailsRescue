@@ -25,13 +25,13 @@ public class UserDAOImpl implements UserDAO{
     }
 
     @Override
-    public void create(User user) {
-        userRepository.save(user);
+    public User create(User user) {
+        return userRepository.save(user);
     }
 
     @Override
-    public void update(User user) {
-        userRepository.save(user);
+    public User update(User user) {
+       return userRepository.save(user);
     }
 
     @Override
