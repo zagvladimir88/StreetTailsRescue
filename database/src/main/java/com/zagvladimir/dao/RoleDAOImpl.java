@@ -33,13 +33,13 @@ public class RoleDAOImpl implements RoleDAO {
     }
 
     @Override
-    public void create(Role role) {
-        repository.save(role);
+    public Role create(Role role) {
+        return repository.save(role);
     }
 
     @Override
-    public void update(Role role) {
-        repository.save(role);
+    public Role update(Role role) {
+        return repository.save(role);
     }
 
     @Override

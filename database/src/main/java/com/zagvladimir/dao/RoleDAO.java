@@ -12,9 +12,9 @@ public interface RoleDAO {
 
     List<Role> findAll();
 
-    void create(Role role);
+    Role create(Role role);
 
-    void update(Role role);
+    Role update(Role role);
 
     void delete(int id);
 }
