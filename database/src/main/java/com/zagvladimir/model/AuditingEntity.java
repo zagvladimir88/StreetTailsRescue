@@ -1,20 +1,13 @@
-package com.zagvladimir.entity;
+package com.zagvladimir.model;
 
-import com.zagvladimir.entity.enums.Status;
-import jakarta.persistence.Column;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import com.zagvladimir.model.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Getter
@@ -26,7 +19,7 @@ public abstract class AuditingEntity {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @CreatedDate
     @Column(name = "creation_date")

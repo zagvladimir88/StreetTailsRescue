@@ -1,6 +1,6 @@
 package com.zagvladimir.repository;
 
-import com.zagvladimir.entity.User;
+import com.zagvladimir.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.zagvladimir.dao;
 
-import com.zagvladimir.entity.Role;
+import com.zagvladimir.model.Role;
 import com.zagvladimir.repository.RoleRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,6 @@ import java.util.Optional;
 public class RoleDAOImpl implements RoleDAO {
 
     RoleRepository repository;
-
 
     @Override
     public List<Role> findRolesByUserId(int roleId) {

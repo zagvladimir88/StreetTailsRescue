@@ -1,6 +1,6 @@
 package com.zagvladimir.dao;
 
-import com.zagvladimir.entity.User;
+import com.zagvladimir.model.User;
 import java.util.List;
 import java.util.Optional;
 

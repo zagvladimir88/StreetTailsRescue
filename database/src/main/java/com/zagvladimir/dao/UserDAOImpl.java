@@ -1,6 +1,6 @@
 package com.zagvladimir.dao;
 
-import com.zagvladimir.entity.User;
+import com.zagvladimir.model.User;
 import com.zagvladimir.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.zagvladimir.dao;
 
-import com.zagvladimir.entity.Role;
+import com.zagvladimir.model.Role;
 import java.util.List;
 import java.util.Optional;
 

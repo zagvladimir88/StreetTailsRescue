@@ -1,6 +1,6 @@
 package com.zagvladimir.repository;
 
-import com.zagvladimir.entity.Role;
+import com.zagvladimir.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

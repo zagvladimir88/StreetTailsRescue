@@ -1,6 +1,6 @@
 package com.zagvladimir.dao;
 
-import com.zagvladimir.entity.Tail;
+import com.zagvladimir.model.Tail;
 
 import java.util.List;
 import java.util.Optional;

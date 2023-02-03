@@ -2,7 +2,7 @@ package com.zagvladimir.controller_for_test;
 
 
 import com.zagvladimir.dao.UserDAO;
-import com.zagvladimir.entity.User;
+import com.zagvladimir.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,6 @@ public class UserController {
                  newUser.setCity(createRequest.city);
                  newUser.setRegistrationDate(new Timestamp(new Date().getTime()));
                  userDAO.create(newUser);
-                 System.out.println(userDAO.findById(1));
         return new ResponseEntity<>("Successful", HttpStatus.CREATED);
     }
 
