@@ -31,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/service/src/main/resources/rent-platform-storage-395e699267fc.json
