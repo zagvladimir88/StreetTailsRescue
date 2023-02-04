@@ -28,13 +28,13 @@ public class TailDAOImpl implements TailDAO {
     }
 
     @Override
-    public void create(Tail tail) {
-        tailRepository.save(tail);
+    public Tail create(Tail tail) {
+        return tailRepository.save(tail);
     }
 
     @Override
-    public void update(Tail tail) {
-        tailRepository.save(tail);
+    public Tail update(Tail tail) {
+        return tailRepository.save(tail);
     }
 
     @Override

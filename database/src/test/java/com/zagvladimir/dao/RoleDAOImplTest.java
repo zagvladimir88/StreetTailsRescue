@@ -2,9 +2,7 @@ package com.zagvladimir.dao;
 
 import com.zagvladimir.annotations.IT;
 import com.zagvladimir.model.Role;
-import com.zagvladimir.model.User;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

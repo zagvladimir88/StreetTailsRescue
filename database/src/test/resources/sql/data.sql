@@ -14,3 +14,13 @@ select SETVAL('roles_id_seq', 4);
 
 INSERT INTO user_roles (user_id, role_id, creation_date, modification_date)
 VALUES (1, 1, '2023-02-03 17:32:57.000000', '2023-02-03 17:32:57.000000');
+
+INSERT INTO tails (id, user_id, type, city, address, creation_date, modification_date, status)
+VALUES (1, 1, 'Cat', 'Zhlobin', '17-5', '2023-02-04 09:10:21.000000', '2023-02-04 09:10:21.000000', 'ACTIVE'),
+       (2, 2, 'Dog', 'Zhlobin', '18-9', '2023-02-04 09:10:21.000000', '2023-02-04 09:10:21.000000', 'ACTIVE');
+select SETVAL('tails_id_seq', 4);
+
+INSERT INTO images (id, tail_id, link, creation_date, modification_date, status)
+VALUES (1, 1, 'testlink', '2023-02-04 09:41:40.000000', '2023-02-04 09:41:40.000000', 'ACTIVE'),
+       (2, 2, 'testlink2', '2023-02-04 09:41:40.000000', '2023-02-04 09:41:40.000000', 'ACTIVE');
+select SETVAL('images_id_seq', 2);

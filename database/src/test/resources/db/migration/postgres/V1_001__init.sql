@@ -66,6 +66,32 @@ create table if not exists user_roles
 alter table user_roles
     owner to test;
 
+create table images
+(
+    id                bigserial
+        primary key,
+    tail_id           int
+        constraint images_tails_id_fk
+            references tails,
+    link              varchar(255),
+    creation_date     timestamp(6) default CURRENT_TIMESTAMP(6),
+    modification_date timestamp(6) default CURRENT_TIMESTAMP(6),
+    status            varchar(25)  default 'ACTIVE'
+);
 
+alter table images
+drop constraint images_tails_id_fk;
+
+alter table images
+    add constraint images_tails_id_fk
+        foreign key (tail_id) references tails
+            on delete set null;
+
+alter table tails
+drop constraint tails_user_id_fkey;
+
+alter table tails
+    add foreign key (user_id) references users
+        on delete set null;
 
 
