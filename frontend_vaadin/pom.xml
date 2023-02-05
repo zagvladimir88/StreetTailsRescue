@@ -10,22 +10,79 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>frontend_vaadin</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.zagvladimir</groupId>
+            <artifactId>service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-spring-boot-starter -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-spring-boot-starter</artifactId>
+            <version>23.3.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>16</source>
-                    <target>16</target>
-                </configuration>
-            </plugin>
+    <plugin>
+        <groupId>com.vaadin</groupId>
+        <artifactId>vaadin-maven-plugin</artifactId>
+        <version>${vaadin.version}</version>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>prepare-frontend</goal>
+                </goals>
+            </execution>
+        </executions>
+        <configuration>
+            <frontendDirectory>${project.basedir}/frontend_vaadin/</frontendDirectory>
+        </configuration>
+    </plugin>
         </plugins>
     </build>
+    <profiles>
+    <profile>
+        <id>production</id>
+        <properties>
+            <vaadin.productionMode>true</vaadin.productionMode>
+        </properties>
 
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-    </properties>
+        <dependencies>
+            <dependency>
+                <groupId>com.vaadin</groupId>
+                <artifactId>flow-server-production-mode</artifactId>
+            </dependency>
+        </dependencies>
 
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>build-frontend</goal>
+                            </goals>
+                            <phase>compile</phase>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <frontendDirectory>${project.basedir}/frontend_vaadin/</frontendDirectory>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
+    </profiles>
 </project>
