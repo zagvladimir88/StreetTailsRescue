@@ -14,12 +14,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication
-@Theme(value = "web-ui", variant = Lumo.DARK)
+@Theme(value = "web-ui", variant = Lumo.LIGHT)
 @NpmPackage(value = "line-awesome", version = "1.3.0")
 @NpmPackage(value = "@vaadin-component-factory/vcf-nav", version = "1.0.6")
 public class Application implements AppShellConfigurator {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-
 }

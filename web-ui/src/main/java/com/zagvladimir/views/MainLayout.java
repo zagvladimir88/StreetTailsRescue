@@ -3,10 +3,13 @@ package com.zagvladimir.views;
 
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
@@ -24,10 +27,12 @@ public class MainLayout extends AppLayout {
 
     private H2 viewTitle;
 
+
     public MainLayout() {
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent();
+
     }
 
     private void addHeaderContent() {
@@ -36,8 +41,17 @@ public class MainLayout extends AppLayout {
 
         viewTitle = new H2();
         viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
-
+        HorizontalLayout layout = new HorizontalLayout();
+        Button button = new Button("Login");
+        layout.add(button);
+        layout.setAlignSelf(FlexComponent.Alignment.END, button);
+        layout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
         addToNavbar(true, toggle, viewTitle);
+        addToNavbar(layout);
+
+
+
+
     }
 
     private void addDrawerContent() {
