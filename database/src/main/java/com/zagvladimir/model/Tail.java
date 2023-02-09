@@ -30,6 +30,10 @@ public class Tail extends AuditingEntity {
     @Column(name = "address")
     String address;
 
+    @Column(name = "description")
+    String description;
+
+
     @JoinColumn(name = "user_id")
     @ManyToOne
     @JsonBackReference

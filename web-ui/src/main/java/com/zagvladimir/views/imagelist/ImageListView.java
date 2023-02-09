@@ -21,30 +21,37 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 import com.vaadin.flow.theme.lumo.LumoUtility.MaxWidth;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
+import com.zagvladimir.model.Tail;
+import com.zagvladimir.service.TailServiceImpl;
+import com.zagvladimir.service.image.ImageService;
 import com.zagvladimir.views.MainLayout;
+import org.springframework.beans.factory.annotation.Autowired;
+
+
+import java.util.List;
 
 @PageTitle("Image List")
 @Route(value = "image-list", layout = MainLayout.class)
 public class ImageListView extends Main implements HasComponents, HasStyle {
 
     private OrderedList imageContainer;
+    private TailServiceImpl tailService;
+    private ImageService imageService;
 
-    public ImageListView() {
+    @Autowired
+    public ImageListView(TailServiceImpl tailService, ImageService imageService) {
+        this.tailService = tailService;
+        this.imageService = imageService;
+
         constructUI();
+        List<Tail> tailList = this.tailService.findAll();
 
-        imageContainer.add(new ImageListViewCard("Snow mountains under stars",
-                "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"));
-        imageContainer.add(new ImageListViewCard("Snow covered mountain",
-                "https://images.unsplash.com/photo-1512273222628-4daea6e55abb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80"));
-        imageContainer.add(new ImageListViewCard("River between mountains",
-                "https://images.unsplash.com/photo-1536048810607-3dc7f86981cb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=375&q=80"));
-        imageContainer.add(new ImageListViewCard("Milky way on mountains",
-                "https://images.unsplash.com/photo-1515705576963-95cad62945b6?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=750&q=80"));
-        imageContainer.add(new ImageListViewCard("Mountain with fog",
-                "https://images.unsplash.com/photo-1513147122760-ad1d5bf68cdb?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80"));
-        imageContainer.add(new ImageListViewCard("Mountain at night",
-                "https://images.unsplash.com/photo-1562832135-14a35d25edef?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=815&q=80"));
-
+        for (Tail tail : tailList) {
+            var urls = this.imageService.getUrls(tail.getId());
+            var imageListViewCard = new ImageListViewCard(tail.getDescription(),tail.getType(),tail.getAddress(),
+                    urls.get(0).toString(),tail.getId());
+            imageContainer.add(imageListViewCard);
+         }
     }
 
     private void constructUI() {

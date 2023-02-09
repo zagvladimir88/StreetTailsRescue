@@ -16,7 +16,6 @@ import com.vaadin.flow.theme.lumo.LumoUtility;
 import com.zagvladimir.components.appnav.AppNav;
 import com.zagvladimir.components.appnav.AppNavItem;
 import com.zagvladimir.views.about.AboutView;
-import com.zagvladimir.views.helloworld.HelloWorldView;
 import com.zagvladimir.views.imagelist.ImageListView;
 
 
@@ -70,7 +69,7 @@ public class MainLayout extends AppLayout {
         AppNav nav = new AppNav();
 
         nav.addItem(new AppNavItem("About", AboutView.class, "la la-file"));
-        nav.addItem(new AppNavItem("Hello World", HelloWorldView.class, "lab la-gitlab"));
+//        nav.addItem(new AppNavItem("Hello World", HelloWorldView.class, "lab la-gitlab"));
         nav.addItem(new AppNavItem("Image List", ImageListView.class, "la la-peace"));
 //        nav.addItem(new AppNavItem("Person Form", PersonFormView.class, "la la-user"));
 

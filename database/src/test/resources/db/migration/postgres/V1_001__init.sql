@@ -47,7 +47,8 @@ create table if not exists tails
     address           varchar(255),
     creation_date     timestamp default now() not null,
     modification_date timestamp default now() not null,
-    status            varchar(255)
+    status            varchar(255),
+    description       varchar
     );
 
 alter table tails
