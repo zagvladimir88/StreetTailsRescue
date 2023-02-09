@@ -1,23 +1,23 @@
 package com.zagvladimir.views;
 
-
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import com.zagvladimir.components.appnav.AppNav;
 import com.zagvladimir.components.appnav.AppNavItem;
 import com.zagvladimir.views.about.AboutView;
+import com.zagvladimir.views.create_tail.CreateTailFormView;
 import com.zagvladimir.views.imagelist.ImageListView;
-
+import com.zagvladimir.views.register_user.RegisterFormView;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -39,22 +39,26 @@ public class MainLayout extends AppLayout {
         toggle.getElement().setAttribute("aria-label", "Menu toggle");
 
         viewTitle = new H2();
-        viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
-        HorizontalLayout layout = new HorizontalLayout();
-        Button button = new Button("Login");
-        layout.add(button);
-        layout.setAlignSelf(FlexComponent.Alignment.END, button);
-        layout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
+        viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.AUTO);
+
+        Button loginButton = new Button("Login");
+        Button registerButton = new Button("Register");
+        registerButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        loginButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        registerButton.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.AlignItems.END);
+        registerButton.addClickListener(e -> {
+            UI.getCurrent().navigate(RegisterFormView.class);
+        });
+
+        registerButton.setVisible(true);
+
         addToNavbar(true, toggle, viewTitle);
-        addToNavbar(layout);
-
-
-
-
+        addToNavbar(loginButton);
+        addToNavbar(registerButton);
     }
 
     private void addDrawerContent() {
-        H1 appName = new H1("web-ui");
+        H1 appName = new H1("Street Tails Rescue");
         appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
         Header header = new Header(appName);
 
@@ -68,10 +72,9 @@ public class MainLayout extends AppLayout {
         // For documentation, visit https://github.com/vaadin/vcf-nav#readme
         AppNav nav = new AppNav();
 
-        nav.addItem(new AppNavItem("About", AboutView.class, "la la-file"));
-//        nav.addItem(new AppNavItem("Hello World", HelloWorldView.class, "lab la-gitlab"));
-        nav.addItem(new AppNavItem("Image List", ImageListView.class, "la la-peace"));
-//        nav.addItem(new AppNavItem("Person Form", PersonFormView.class, "la la-user"));
+        nav.addItem(new AppNavItem("Хвостатые", ImageListView.class, "la la-peace"));
+        nav.addItem(new AppNavItem("О нас", AboutView.class, "la la-file"));
+        nav.addItem(new AppNavItem("Добавить хвостатого", CreateTailFormView.class, "la la-user"));
 
         return nav;
     }

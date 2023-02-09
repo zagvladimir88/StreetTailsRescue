@@ -16,4 +16,9 @@ public class TailServiceImpl implements TailService{
     public List<Tail> findAll() {
         return tailDAO.findAll();
     }
+
+    @Override
+    public void create(Tail tail) {
+        tailDAO.create(tail);
+    }
 }

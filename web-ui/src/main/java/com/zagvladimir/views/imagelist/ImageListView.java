@@ -27,11 +27,10 @@ import com.zagvladimir.service.image.ImageService;
 import com.zagvladimir.views.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 import java.util.List;
 
-@PageTitle("Image List")
-@Route(value = "image-list", layout = MainLayout.class)
+@PageTitle("Хвостатые")
+@Route(value = "tail-list", layout = MainLayout.class)
 public class ImageListView extends Main implements HasComponents, HasStyle {
 
     private OrderedList imageContainer;
@@ -48,8 +47,13 @@ public class ImageListView extends Main implements HasComponents, HasStyle {
 
         for (Tail tail : tailList) {
             var urls = this.imageService.getUrls(tail.getId());
+            String url;
+            if(urls.isEmpty()) {
+                url = "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80";
+
+            } else url = urls.get(0).toString();
             var imageListViewCard = new ImageListViewCard(tail.getDescription(),tail.getType(),tail.getAddress(),
-                    urls.get(0).toString(),tail.getId());
+                    url ,tail.getId());
             imageContainer.add(imageListViewCard);
          }
     }

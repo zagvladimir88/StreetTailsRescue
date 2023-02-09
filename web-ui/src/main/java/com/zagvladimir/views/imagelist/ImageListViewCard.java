@@ -20,7 +20,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Overflow;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 import com.vaadin.flow.theme.lumo.LumoUtility.Width;
-import com.zagvladimir.views.helloworld.HelloWorldView;
+import com.zagvladimir.views.tail.TailsView;
 
 public class ImageListViewCard extends ListItem {
 
@@ -56,7 +56,7 @@ public class ImageListViewCard extends ListItem {
         badge.setText("Label");
 
         var routerLink = new RouterLink("Подробнее",
-                HelloWorldView.class, new RouteParameters("tailID", id.toString()));
+                TailsView.class, new RouteParameters("tailID", id.toString()));
 
         add(div, header, subtitle, description, routerLink);
 

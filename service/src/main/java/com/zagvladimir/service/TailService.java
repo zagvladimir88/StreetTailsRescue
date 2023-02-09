@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface TailService {
     List<Tail> findAll();
+
+    void create(Tail tail);
 }

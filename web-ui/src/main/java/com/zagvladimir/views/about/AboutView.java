@@ -9,7 +9,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.zagvladimir.views.MainLayout;
 
-@PageTitle("About")
+@PageTitle("О нас")
 @Route(value = "about", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 public class AboutView extends VerticalLayout {
