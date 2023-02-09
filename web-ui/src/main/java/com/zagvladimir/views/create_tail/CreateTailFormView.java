@@ -11,14 +11,20 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.upload.Upload;
+import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.zagvladimir.model.Tail;
-import com.zagvladimir.service.TailService;
+import com.zagvladimir.service.image.ImageService;
+import com.zagvladimir.service.tail.TailService;
 import com.zagvladimir.views.MainLayout;
 
-@PageTitle("Tail Form")
+import java.io.IOException;
+import java.io.InputStream;
+
+@PageTitle("Добавление нового хвостатого")
 @Route(value = "tail-form", layout = MainLayout.class)
 @Uses(Icon.class)
 public class CreateTailFormView extends Div {
@@ -28,24 +34,44 @@ public class CreateTailFormView extends Div {
     private final TextField address = new TextField("Адресс хвостатого");
     private final TextField description = new TextField("Описание");
 
-    private final Button cancel = new Button("Cancel");
-    private final Button save = new Button("Save");
-
+    private final Button cancel = new Button("Отменить");
+    private final Button save = new Button("Сохранить");
+    private final MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
+    private final Upload upload = new Upload(buffer);
     private final Binder<Tail> binder = new Binder<>(Tail.class);
+    private byte[] tailImage;
+    private final ImageService imageService;
 
-    public CreateTailFormView(TailService tailService) {
+    public CreateTailFormView(TailService tailService, ImageService imageService) {
+        this.imageService = imageService;
+
+        tailImage = null;
+        upload.addSucceededListener(event -> {
+            String fileName = event.getFileName();
+            InputStream inputStream = buffer.getInputStream(fileName);
+
+            try {
+                tailImage = inputStream.readAllBytes();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+
+
         addClassName("person-form-view");
 
         add(createTitle());
         add(createFormLayout());
         add(createButtonLayout());
-
+        add(upload);
         binder.bindInstanceFields(this);
         clearForm();
 
         cancel.addClickListener(e -> clearForm());
         save.addClickListener(e -> {
-            tailService.create(binder.getBean());
+            Integer newTailId = tailService.create(binder.getBean());
+            imageService.uploadFile(tailImage,newTailId,".jpg");
             Notification.show(binder.getBean().getClass().getSimpleName() + " details stored.");
             clearForm();
         });
@@ -56,12 +82,11 @@ public class CreateTailFormView extends Div {
     }
 
     private Component createTitle() {
-        return new H3("Personal information");
+        return new H3("Информация о хвостатом");
     }
 
     private Component createFormLayout() {
         FormLayout formLayout = new FormLayout();
-//        email.setErrorMessage("Please enter a valid email address");
         formLayout.add(type, city, address, description);
         return formLayout;
     }

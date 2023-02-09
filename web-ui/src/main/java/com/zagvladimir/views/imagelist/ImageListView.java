@@ -22,7 +22,7 @@ import com.vaadin.flow.theme.lumo.LumoUtility.MaxWidth;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 import com.zagvladimir.model.Tail;
-import com.zagvladimir.service.TailServiceImpl;
+import com.zagvladimir.service.tail.TailServiceImpl;
 import com.zagvladimir.service.image.ImageService;
 import com.zagvladimir.views.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;

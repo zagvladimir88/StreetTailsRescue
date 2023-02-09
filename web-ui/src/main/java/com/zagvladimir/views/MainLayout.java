@@ -26,12 +26,10 @@ public class MainLayout extends AppLayout {
 
     private H2 viewTitle;
 
-
     public MainLayout() {
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent();
-
     }
 
     private void addHeaderContent() {
@@ -81,7 +79,6 @@ public class MainLayout extends AppLayout {
 
     private Footer createFooter() {
         Footer layout = new Footer();
-
         return layout;
     }
 

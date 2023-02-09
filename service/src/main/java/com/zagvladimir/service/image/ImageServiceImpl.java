@@ -31,7 +31,7 @@ public class ImageServiceImpl implements ImageService {
   private final ImageDAOImpl imageDAO;
 
   @Override
-  public String uploadFile(byte[] imageBytes, Integer itemId, String fileExt) {
+  public String uploadFile(byte[] imageBytes, Integer tailId, String fileExt) {
 
     String imageNameUUID = String.format("%S.%s", UUID.randomUUID(), fileExt);
     BlobId blobId = BlobId.of(googleCSConfig.getBucket(), imageNameUUID);
@@ -40,7 +40,7 @@ public class ImageServiceImpl implements ImageService {
             .setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE)
             .build();
     Blob blob = storage.create(blobInfo, imageBytes);
-    createImageInDB(imageNameUUID, itemId);
+    createImageInDB(imageNameUUID, tailId);
     return blob.signUrl(5L, TimeUnit.MINUTES).toString();
   }
 
@@ -57,10 +57,10 @@ public class ImageServiceImpl implements ImageService {
         .collect(Collectors.toList());
   }
 
-  public void createImageInDB(String imageLink, Integer itemId) {
+  public void createImageInDB(String imageLink, Integer tailId) {
     Image newImage = new Image();
     newImage.setLink(imageLink);
-    newImage.setTail(tailDAO.findById(itemId).get());
+    newImage.setTail(tailDAO.findById(tailId).get());
     imageDAO.create(newImage);
   }
 }
