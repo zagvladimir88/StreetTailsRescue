@@ -11,6 +11,7 @@ public interface RoleDAO {
     Optional<Role> findById(int id);
 
     List<Role> findAll();
+    Role findRoleByName(String name);
 
     Role create(Role role);
 

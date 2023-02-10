@@ -43,7 +43,7 @@ public class ImageListView extends Main implements HasComponents, HasStyle {
         this.imageService = imageService;
 
         constructUI();
-        List<Tail> tailList = this.tailService.findAll();
+        List<Tail> tailList = this.tailService.findAllWithStatusActive();
 
         for (Tail tail : tailList) {
             var urls = this.imageService.getUrls(tail.getId());

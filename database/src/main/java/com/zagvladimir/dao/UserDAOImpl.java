@@ -39,4 +39,9 @@ public class UserDAOImpl implements UserDAO{
         userRepository.deleteById(id);
 
     }
+
+    @Override
+    public Optional<User> findUserByActivationCode(String code) {
+        return userRepository.findUserByActivationCode(code);
+    }
 }
