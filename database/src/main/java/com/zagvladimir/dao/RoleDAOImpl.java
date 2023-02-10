@@ -33,6 +33,11 @@ public class RoleDAOImpl implements RoleDAO {
     }
 
     @Override
+    public Role findRoleByName(String name) {
+        return repository.findRoleByName(name);
+    }
+
+    @Override
     public Role create(Role role) {
         return repository.save(role);
     }

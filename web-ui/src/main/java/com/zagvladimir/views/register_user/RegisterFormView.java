@@ -17,7 +17,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.zagvladimir.model.User;
-import com.zagvladimir.service.UserService;
+import com.zagvladimir.service.user.UserServiceImpl;
 import com.zagvladimir.views.MainLayout;
 
 @PageTitle("Person Form")
@@ -36,7 +36,7 @@ public class RegisterFormView extends Div {
 
     private final Binder<User> binder = new Binder<>(User.class);
 
-    public RegisterFormView(UserService personService) {
+    public RegisterFormView(UserServiceImpl userService) {
         addClassName("person-form-view");
 
         add(createTitle());
@@ -48,7 +48,7 @@ public class RegisterFormView extends Div {
 
         cancel.addClickListener(e -> clearForm());
         save.addClickListener(e -> {
-            personService.create(binder.getBean());
+            userService.register(binder.getBean());
             Notification.show(binder.getBean().getClass().getSimpleName() + " details stored.");
             clearForm();
         });
