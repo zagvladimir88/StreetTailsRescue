@@ -14,6 +14,7 @@ import com.zagvladimir.views.MainLayout;
 @AnonymousAllowed
 public class AboutView extends VerticalLayout {
 
+
     public AboutView() {
         setSpacing(false);
 

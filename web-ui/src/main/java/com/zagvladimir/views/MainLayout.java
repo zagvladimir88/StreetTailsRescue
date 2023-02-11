@@ -13,13 +13,19 @@ import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
+import com.vaadin.flow.spring.security.AuthenticationContext;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import com.zagvladimir.components.appnav.AppNav;
 import com.zagvladimir.components.appnav.AppNavItem;
 import com.zagvladimir.views.about.AboutView;
 import com.zagvladimir.views.create_tail.CreateTailFormView;
+import com.zagvladimir.views.login.LoginView;
 import com.zagvladimir.views.tails_list.TailsListView;
 import com.zagvladimir.views.register_user.RegisterFormView;
+import com.zagvladimir.views.user_profile.UserProfileView;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -29,8 +35,12 @@ import com.zagvladimir.views.register_user.RegisterFormView;
 public class MainLayout extends AppLayout {
 
     private H2 viewTitle;
+    private final Authentication authentication;
+    private final transient AuthenticationContext authContext;
 
-    public MainLayout() {
+    public MainLayout(AuthenticationContext authContext) {
+        this.authContext = authContext;
+        authentication = SecurityContextHolder.getContext().getAuthentication();
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent();
@@ -43,20 +53,38 @@ public class MainLayout extends AppLayout {
         viewTitle = new H2();
         viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.AUTO);
 
-        Button loginButton = new Button("Login");
-        Button registerButton = new Button("Register");
-        registerButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        Button loginButton = new Button("Войти");
         loginButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        loginButton.addClickListener(e -> {
+            UI.getCurrent().navigate(LoginView.class);
+        });
+
+        Button registerButton = new Button("Зарегистрироваться");
+        registerButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         registerButton.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.AlignItems.END);
         registerButton.addClickListener(e -> {
             UI.getCurrent().navigate(RegisterFormView.class);
         });
-
-        registerButton.setVisible(true);
-
         addToNavbar(true, toggle, viewTitle);
         addToNavbar(loginButton);
         addToNavbar(registerButton);
+
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            loginButton.setVisible(false);
+            registerButton.setVisible(false);
+
+            Button logOut = new Button("Выйти");
+            logOut.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+            logOut.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.AlignItems.END);
+            logOut.addClickListener(e -> {
+                authContext.logout();
+            });
+            logOut.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.AlignItems.END);
+            addToNavbar(logOut);
+        }
+
+
+
     }
 
     private void addDrawerContent() {
@@ -74,10 +102,14 @@ public class MainLayout extends AppLayout {
         // For documentation, visit https://github.com/vaadin/vcf-nav#readme
         AppNav nav = new AppNav();
 
+
         nav.addItem(new AppNavItem("Хвостатые", TailsListView.class, "la la-peace"));
         nav.addItem(new AppNavItem("О нас", AboutView.class, "la la-file"));
-        nav.addItem(new AppNavItem("Добавить хвостатого", CreateTailFormView.class, "la la-user"));
 
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            nav.addItem(new AppNavItem("Профиль", UserProfileView.class, "la la-user"));
+            nav.addItem(new AppNavItem("Добавить хвостатого", CreateTailFormView.class, "la la-user"));
+        }
         return nav;
     }
 

@@ -28,7 +28,6 @@ import com.zagvladimir.service.image.ImageService;
 import com.zagvladimir.views.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.security.PermitAll;
 import java.util.List;
 
 @PageTitle("Хвостатые")
@@ -37,8 +36,8 @@ import java.util.List;
 public class TailsListView extends Main implements HasComponents, HasStyle {
 
     private OrderedList imageContainer;
-    private TailServiceImpl tailService;
-    private ImageService imageService;
+    private final TailServiceImpl tailService;
+    private final ImageService imageService;
 
     @Autowired
     public TailsListView(TailServiceImpl tailService, ImageService imageService) {
