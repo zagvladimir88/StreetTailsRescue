@@ -9,6 +9,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.zagvladimir.service.image.ImageService;
 import com.zagvladimir.service.tail.TailServiceImpl;
 import com.zagvladimir.views.MainLayout;
@@ -17,6 +18,7 @@ import java.net.URL;
 
 @PageTitle("Хвостатые")
 @Route(value = "tails/:tailID?", layout = MainLayout.class)
+@AnonymousAllowed
 public class TailsView extends VerticalLayout implements BeforeEnterObserver{
 
     private String tailId;

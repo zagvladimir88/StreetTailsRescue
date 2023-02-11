@@ -44,4 +44,9 @@ public class UserDAOImpl implements UserDAO{
     public Optional<User> findUserByActivationCode(String code) {
         return userRepository.findUserByActivationCode(code);
     }
+
+    @Override
+    public Optional<User> findUserByLogin(String login) {
+        return userRepository.findUserByLogin(login);
+    }
 }

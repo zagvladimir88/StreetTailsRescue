@@ -11,6 +11,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility.AlignItems;
 import com.vaadin.flow.theme.lumo.LumoUtility.Display;
 import com.vaadin.flow.theme.lumo.LumoUtility.FontSize;
@@ -27,10 +28,12 @@ import com.zagvladimir.service.image.ImageService;
 import com.zagvladimir.views.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.security.PermitAll;
 import java.util.List;
 
 @PageTitle("Хвостатые")
 @Route(value = "tail-list", layout = MainLayout.class)
+@AnonymousAllowed
 public class TailsListView extends Main implements HasComponents, HasStyle {
 
     private OrderedList imageContainer;

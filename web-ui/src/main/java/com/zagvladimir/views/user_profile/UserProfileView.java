@@ -20,10 +20,12 @@ import com.zagvladimir.service.user.UserService;
 import com.zagvladimir.views.MainLayout;
 import lombok.SneakyThrows;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @PageTitle("Профиль")
 @Route(value = "profile/:userID?", layout = MainLayout.class)
+@RolesAllowed("USER")
 public class UserProfileView extends VerticalLayout implements BeforeEnterObserver{
     private final UserService userService;
     private final TailService tailService;

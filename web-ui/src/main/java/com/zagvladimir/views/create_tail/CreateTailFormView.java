@@ -21,12 +21,14 @@ import com.zagvladimir.service.image.ImageService;
 import com.zagvladimir.service.tail.TailService;
 import com.zagvladimir.views.MainLayout;
 
+import javax.annotation.security.RolesAllowed;
 import java.io.IOException;
 import java.io.InputStream;
 
 @PageTitle("Добавление нового хвостатого")
 @Route(value = "tail-form", layout = MainLayout.class)
 @Uses(Icon.class)
+@RolesAllowed({"ROLE_ADMIN","USER","ROLE_Role(name=ROLE_ADMIN)"})
 public class CreateTailFormView extends Div {
 
     private final TextField type = new TextField("Вид хвостатого");

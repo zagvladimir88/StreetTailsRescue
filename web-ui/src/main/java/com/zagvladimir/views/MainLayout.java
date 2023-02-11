@@ -11,6 +11,8 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import com.zagvladimir.components.appnav.AppNav;
 import com.zagvladimir.components.appnav.AppNavItem;
@@ -22,6 +24,8 @@ import com.zagvladimir.views.register_user.RegisterFormView;
 /**
  * The main view is a top-level placeholder for other views.
  */
+@Route(value = "")
+@AnonymousAllowed
 public class MainLayout extends AppLayout {
 
     private H2 viewTitle;
