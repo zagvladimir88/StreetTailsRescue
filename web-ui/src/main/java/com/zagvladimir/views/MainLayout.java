@@ -16,7 +16,7 @@ import com.zagvladimir.components.appnav.AppNav;
 import com.zagvladimir.components.appnav.AppNavItem;
 import com.zagvladimir.views.about.AboutView;
 import com.zagvladimir.views.create_tail.CreateTailFormView;
-import com.zagvladimir.views.imagelist.ImageListView;
+import com.zagvladimir.views.tails_list.TailsListView;
 import com.zagvladimir.views.register_user.RegisterFormView;
 
 /**
@@ -70,7 +70,7 @@ public class MainLayout extends AppLayout {
         // For documentation, visit https://github.com/vaadin/vcf-nav#readme
         AppNav nav = new AppNav();
 
-        nav.addItem(new AppNavItem("Хвостатые", ImageListView.class, "la la-peace"));
+        nav.addItem(new AppNavItem("Хвостатые", TailsListView.class, "la la-peace"));
         nav.addItem(new AppNavItem("О нас", AboutView.class, "la la-file"));
         nav.addItem(new AppNavItem("Добавить хвостатого", CreateTailFormView.class, "la la-user"));
 

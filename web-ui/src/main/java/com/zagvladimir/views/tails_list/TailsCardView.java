@@ -1,4 +1,4 @@
-package com.zagvladimir.views.imagelist;
+package com.zagvladimir.views.tails_list;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Image;
@@ -22,9 +22,9 @@ import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 import com.vaadin.flow.theme.lumo.LumoUtility.Width;
 import com.zagvladimir.views.tail.TailsView;
 
-public class ImageListViewCard extends ListItem {
+public class TailsCardView extends ListItem {
 
-    public ImageListViewCard(String paragraph,String title,String sub, String url,Integer id) {
+    public TailsCardView(String paragraph, String title, String sub, String url, Integer id) {
         addClassNames(Background.CONTRAST_5, Display.FLEX, FlexDirection.COLUMN, AlignItems.START, Padding.MEDIUM,
                 BorderRadius.LARGE);
 

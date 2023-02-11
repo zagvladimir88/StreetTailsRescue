@@ -1,10 +1,10 @@
 package com.zagvladimir.views.user_profile;
 
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -18,15 +18,16 @@ import com.zagvladimir.model.Tail;
 import com.zagvladimir.service.tail.TailService;
 import com.zagvladimir.service.user.UserService;
 import com.zagvladimir.views.MainLayout;
+import lombok.SneakyThrows;
 
 import java.util.List;
 
 @PageTitle("Профиль")
 @Route(value = "profile/:userID?", layout = MainLayout.class)
 public class UserProfileView extends VerticalLayout implements BeforeEnterObserver{
-
     private final UserService userService;
     private final TailService tailService;
+    private String userID;
 
     public UserProfileView(UserService userService, TailService tailService) {
         this.userService = userService;
@@ -40,9 +41,19 @@ public class UserProfileView extends VerticalLayout implements BeforeEnterObserv
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        String userID = beforeEnterEvent.getRouteParameters().get("userID").
+        userID = beforeEnterEvent.getRouteParameters().get("userID").
                 orElse("22");
 
+        TabSheet tabSheet = new TabSheet();
+        tabSheet.setWidth("100%");
+        tabSheet.add("Персональная информация",
+                userInfoTab());
+        tabSheet.add("Список ваших хвостатых",
+                tailInfoTab());
+        add(tabSheet);
+    }
+
+    private Div tailInfoTab(){
         List<Tail> tails = userService.getAllTails(Integer.valueOf(userID));
 
         Grid<Tail> grid = new Grid<>();
@@ -60,13 +71,18 @@ public class UserProfileView extends VerticalLayout implements BeforeEnterObserv
                     button.setIcon(new Icon(VaadinIcon.TRASH));
                 })).setHeader("Удалить");
 
-        Div tailInfo = new Div(grid);
+        return new Div(grid);
+    }
 
-        TabSheet tabSheet = new TabSheet();
-        tabSheet.add("Персональная информация",
-                new Div(new Text("This is the Dashboard tab content")));
-        tabSheet.add("Список ваших хвостатых",
-                tailInfo);
-        add(tabSheet);
+    @SneakyThrows
+    private VerticalLayout userInfoTab(){
+        var userById = userService.findById(Integer.valueOf(userID));
+        Span name = new Span(String.format("Имя: %s",userById.getFirstName()));
+        Span login = new Span(String.format("Логин: %s",userById.getLogin()));
+        Span email = new Span(String.format("Электронный адресс: %s",userById.getEmail()));
+        Span city = new Span(String.format("Город: %s",userById.getCity()));
+        Span tailsCount = new Span(String.format("Добавлено хвостов: %s", userById.getTails().size()));
+
+        return new VerticalLayout(name,login,email, city,tailsCount);
     }
 }

@@ -14,6 +14,7 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.*;
@@ -43,6 +44,11 @@ public class UserServiceImpl implements UserService{
         if(newUser.getEmail() != null){
             sendEmail(user);
         }
+    }
+
+    @Override
+    public User findById(Integer userID) {
+        return userDAO.findById(userID).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.zagvladimir.model.enums.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,12 @@ public class TailServiceImpl implements TailService{
     @Override
     public List<Tail> findAll() {
         return tailDAO.findAll();
+    }
+
+    @Override
+    public Tail findById(Integer tailID) {
+        return tailDAO.findById(tailID)
+                .orElseThrow(() -> new EntityNotFoundException("Tail with id: " + tailID + " not found"));
     }
 
     @Override

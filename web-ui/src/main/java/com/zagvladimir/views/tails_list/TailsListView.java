@@ -1,4 +1,4 @@
-package com.zagvladimir.views.imagelist;
+package com.zagvladimir.views.tails_list;
 
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.HasStyle;
@@ -31,14 +31,14 @@ import java.util.List;
 
 @PageTitle("Хвостатые")
 @Route(value = "tail-list", layout = MainLayout.class)
-public class ImageListView extends Main implements HasComponents, HasStyle {
+public class TailsListView extends Main implements HasComponents, HasStyle {
 
     private OrderedList imageContainer;
     private TailServiceImpl tailService;
     private ImageService imageService;
 
     @Autowired
-    public ImageListView(TailServiceImpl tailService, ImageService imageService) {
+    public TailsListView(TailServiceImpl tailService, ImageService imageService) {
         this.tailService = tailService;
         this.imageService = imageService;
 
@@ -52,7 +52,7 @@ public class ImageListView extends Main implements HasComponents, HasStyle {
                 url = "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80";
 
             } else url = urls.get(0).toString();
-            var imageListViewCard = new ImageListViewCard(tail.getDescription(),tail.getType(),tail.getAddress(),
+            var imageListViewCard = new TailsCardView(tail.getDescription(),tail.getType(),tail.getAddress(),
                     url ,tail.getId());
             imageContainer.add(imageListViewCard);
          }

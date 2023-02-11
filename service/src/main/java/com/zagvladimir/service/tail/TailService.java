@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface TailService {
     List<Tail> findAll();
+    Tail findById(Integer tailID);
     List<Tail> findAllWithStatusActive();
 
     Integer create(Tail tail);
