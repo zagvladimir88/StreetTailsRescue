@@ -52,6 +52,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public Optional<User> findUserByLogin(String login) {
+        return userDAO.findUserByLogin(login);
+    }
+
+    @Override
     public boolean activateUser(String code) {
         Optional<User> user = userDAO.findUserByActivationCode(code);
         if (user.isPresent() && user.get().getStatus().equals(Status.NOT_ACTIVE)) {

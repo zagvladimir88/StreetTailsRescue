@@ -5,11 +5,13 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.zagvladimir.service.user.UserService;
 import com.zagvladimir.views.MainLayout;
 
 @PageTitle("Активация аккаунта")
 @Route(value = "activate/:activateCode?", layout = MainLayout.class)
+@AnonymousAllowed
 public class ActivateUserView extends VerticalLayout implements BeforeEnterObserver {
 
     private final UserService userService;

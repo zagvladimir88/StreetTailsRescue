@@ -16,6 +16,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.zagvladimir.model.User;
 import com.zagvladimir.service.user.UserServiceImpl;
 import com.zagvladimir.views.MainLayout;
@@ -23,6 +24,7 @@ import com.zagvladimir.views.MainLayout;
 @PageTitle("Person Form")
 @Route(value = "person-form", layout = MainLayout.class)
 @Uses(Icon.class)
+@AnonymousAllowed
 public class RegisterFormView extends Div {
 
     private final TextField firstName = new TextField("First name");

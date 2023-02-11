@@ -21,12 +21,14 @@ import com.zagvladimir.service.image.ImageService;
 import com.zagvladimir.service.tail.TailService;
 import com.zagvladimir.views.MainLayout;
 
+import javax.annotation.security.RolesAllowed;
 import java.io.IOException;
 import java.io.InputStream;
 
 @PageTitle("Добавление нового хвостатого")
 @Route(value = "tail-form", layout = MainLayout.class)
 @Uses(Icon.class)
+@RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
 public class CreateTailFormView extends Div {
 
     private final TextField type = new TextField("Вид хвостатого");
@@ -72,7 +74,7 @@ public class CreateTailFormView extends Div {
         save.addClickListener(e -> {
             Integer newTailId = tailService.create(binder.getBean());
             imageService.uploadFile(tailImage,newTailId,".jpg");
-            Notification.show(binder.getBean().getClass().getSimpleName() + " details stored.");
+            Notification.show(binder.getBean().getClass().getSimpleName() + " Tails stored.");
             clearForm();
         });
     }
