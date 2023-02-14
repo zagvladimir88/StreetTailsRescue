@@ -18,7 +18,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -69,15 +68,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<Tail> getAllTails(Integer userID) {
-        var userById = userDAO.findById(userID);
-        List<Tail> tails = null;
-        if(userById.isPresent()){
-            tails = userById.get().getTails()
-                    .stream()
-                    .filter(tail -> tail.getStatus() == Status.ACTIVE)
-                    .collect(Collectors.toList());
-        }
-        return tails;
+        return userDAO.findById(userID)
+                .filter(user -> user.getStatus() == Status.ACTIVE)
+                .map(User::getTails)
+                .map(ArrayList::new)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     private void addRole(User user, Role role) {
