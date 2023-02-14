@@ -3,6 +3,7 @@ package com.zagvladimir.dao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zagvladimir.BaseIntegrationTest;
 import com.zagvladimir.annotations.IT;
+import com.zagvladimir.model.City;
 import com.zagvladimir.model.Image;
 import com.zagvladimir.model.Tail;
 import com.zagvladimir.model.User;
@@ -30,6 +31,7 @@ class TailDAOImplTest extends BaseIntegrationTest {
     private Tail DOG;
     private User VLADIMIR;
     private User IVAN;
+    private City city;
 
 
     @BeforeEach
@@ -75,12 +77,12 @@ class TailDAOImplTest extends BaseIntegrationTest {
     @Test
     void update() {
         CAT.setId(1);
-        CAT.setCity("Gomel");
+        CAT.setCity(city);
         CAT.setAddress("Советская улица");
 
         Tail updatedTail = tailDAO.update(CAT);
 
-        assertEquals("Gomel", updatedTail.getCity());
+        assertEquals(city, updatedTail.getCity());
         assertEquals("Советская улица", updatedTail.getAddress());
     }
 
@@ -95,17 +97,27 @@ class TailDAOImplTest extends BaseIntegrationTest {
 
     @SneakyThrows
     private void createTails(){
+        city = new City();
+        city.setId(109);
+        city.setName("Zhlobin");
+
         Set<Image> nullSet = new HashSet<>();
+
         VLADIMIR = mapper.readValue(new File("src/test/resources/json_for_test/userVladimir.json"), User.class);
+        VLADIMIR.setCity(city);
+
         IVAN = mapper.readValue(new File("src/test/resources/json_for_test/userIvan.json"), User.class);
+        IVAN.setCity(city);
 
         CAT = mapper.readValue(new File("src/test/resources/json_for_test/tailCat.json"), Tail.class);
         CAT.setFinder(VLADIMIR);
         CAT.setImages(nullSet);
+        CAT.setCity(city);
 
         DOG = mapper.readValue(new File("src/test/resources/json_for_test/tailDog.json"), Tail.class);
         DOG.setFinder(IVAN);
         DOG.setImages(nullSet);
+        DOG.setCity(city);
 
 
 

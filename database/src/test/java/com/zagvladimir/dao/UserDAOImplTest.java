@@ -3,6 +3,7 @@ package com.zagvladimir.dao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zagvladimir.BaseIntegrationTest;
 import com.zagvladimir.annotations.IT;
+import com.zagvladimir.model.City;
 import com.zagvladimir.model.User;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
@@ -96,12 +97,16 @@ class UserDAOImplTest extends BaseIntegrationTest {
 
     @SneakyThrows
     void createUser() {
-
+        City city = new City();
+        city.setId(109);
+        city.setName("Zhlobin");
         User user = mapper.readValue(new File("src/test/resources/json_for_test/userVladimir.json"), User.class);
         VLADIMIR = user;
+        VLADIMIR.setCity(city);
 
         User user2 = mapper.readValue(new File("src/test/resources/json_for_test/userIvan.json"), User.class);
         IVAN = user2;
+        IVAN.setCity(city);
 
 
     }

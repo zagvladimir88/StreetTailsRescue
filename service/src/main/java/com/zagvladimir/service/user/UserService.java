@@ -15,4 +15,9 @@ public interface UserService {
     boolean activateUser(String code);
 
     List<Tail> getAllTails(Integer userID);
+
+    List<User> findAll();
+
+    void deleteUserById(Integer userId);
+    void softDeleteUserById(Integer userId);
 }

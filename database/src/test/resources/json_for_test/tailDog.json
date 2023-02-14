@@ -1,7 +1,6 @@
 {
   "id": 2,
   "type": "Dog",
-  "city": "Zhlobin",
   "address": "18-9",
   "creationDate": "2023-02-03T16:00:00.184000Z",
   "modificationDate": "2023-02-03T16:00:00.184000Z",

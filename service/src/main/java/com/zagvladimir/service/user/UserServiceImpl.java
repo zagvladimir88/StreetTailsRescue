@@ -75,6 +75,25 @@ public class UserServiceImpl implements UserService{
                 .orElseThrow(EntityNotFoundException::new);
     }
 
+    @Override
+    public List<User> findAll() {
+        return userDAO.findAll();
+    }
+
+    @Override
+    public void deleteUserById(Integer userId) {
+        userDAO.delete(userId);
+    }
+
+    @Override
+    public void softDeleteUserById(Integer userId) {
+        var userForDelete = userDAO.findById(userId);
+        if(userForDelete.isPresent()){
+            userForDelete.get().setStatus(Status.DELETED);
+            userDAO.update(userForDelete.get());
+        }
+    }
+
     private void addRole(User user, Role role) {
         Set<Role> rolesList = new HashSet<>();
         rolesList.add(role);

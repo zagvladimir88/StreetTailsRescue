@@ -1,3 +1,17 @@
+create table if not exists cities
+(
+    id                serial
+        primary key
+        unique,
+    name              varchar(50),
+    status            varchar(25)  default 'ACTIVE',
+    creation_date     timestamp(6) default CURRENT_TIMESTAMP(6),
+    modification_date timestamp(6) default CURRENT_TIMESTAMP(6)
+);
+
+
+
+
 create table if not exists roles
 (
     id                serial
@@ -30,11 +44,23 @@ create table if not exists users
 alter table users
     owner to test;
 
+
+
 create unique index if not exists users_email_uindex
     on users (email);
 
 create unique index if not exists users_user_login_uindex
     on users (user_login);
+
+alter table users
+    rename column city to city_id;
+
+alter table users
+alter column city_id type int using city_id::int;
+
+alter table users
+    add constraint users_cities_id_fk
+        foreign key (city_id) references cities;
 
 create table if not exists tails
 (
@@ -96,3 +122,14 @@ alter table tails
         on delete set null;
 
 
+
+
+alter table tails
+    rename column city to city_id;
+
+alter table tails
+alter column city_id type int using city_id::int;
+
+alter table tails
+    add constraint tails_cities_id_fk
+        foreign key (city_id) references cities;

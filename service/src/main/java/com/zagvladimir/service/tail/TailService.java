@@ -12,4 +12,5 @@ public interface TailService {
     Integer create(Tail tail);
 
     void softDeleteTailById(Integer tailId);
+    void deleteById(Integer tailId);
 }

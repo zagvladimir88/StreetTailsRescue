@@ -24,15 +24,16 @@ public class Tail extends AuditingEntity {
     @Column(name = "type")
     String type;
 
-    @Column(name = "city")
-    String city;
-
     @Column(name = "address")
     String address;
 
     @Column(name = "description")
     String description;
 
+    @ManyToOne
+    @JsonBackReference(value = "tailReference")
+    @JoinColumn(name = "city_id")
+    private City city;
 
     @JoinColumn(name = "user_id")
     @ManyToOne

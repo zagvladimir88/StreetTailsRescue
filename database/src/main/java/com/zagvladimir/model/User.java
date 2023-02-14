@@ -1,5 +1,6 @@
 package com.zagvladimir.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -30,8 +31,10 @@ public class User extends AuditingEntity{
     @Column(name = "email")
     String email;
 
-    @Column(name = "city")
-    String city;
+    @ManyToOne
+    @JsonBackReference(value = "userReference")
+    @JoinColumn(name = "city_id")
+    private City city;
 
     @Column(name = "registration_date")
     Timestamp registrationDate;

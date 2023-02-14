@@ -1,7 +1,11 @@
-INSERT INTO users (id, first_name, user_login, user_password, email, status, city, registration_date, creation_date, modification_date, activation_code)
+INSERT INTO cities (id, name, status, creation_date, modification_date)
+VALUES (109, 'Zhlobin', 'ACTIVE', '2023-02-14 16:43:36.734758', '2023-02-14 16:43:36.734758');
+select SETVAL('cities_id_seq', 1);
+
+INSERT INTO users (id, first_name, user_login, user_password, email, status, city_id, registration_date, creation_date, modification_date, activation_code)
 VALUES
-    (1, 'Vladimir', 'strjke', '2222', 'zagvladimir88@gmail.com', 'ACTIVE', 'Zhlobin', '2023-02-02 17:48:01.463007', '2023-02-02 17:48:01.463007', '2023-02-02 17:48:01.463007', 'abcdef'),
-    (2, 'Ivan', 'van', '2222', 'vanya@gmail.com', 'ACTIVE', 'Zhlobin', '2023-02-03 19:00:00.184000', '2023-02-03 19:00:00.184000', '2023-02-03 19:00:00.184000', 'abc');
+    (1, 'Vladimir', 'strjke', '2222', 'zagvladimir88@gmail.com', 'ACTIVE', 109, '2023-02-02 17:48:01.463007', '2023-02-02 17:48:01.463007', '2023-02-02 17:48:01.463007', 'abcdef'),
+    (2, 'Ivan', 'van', '2222', 'vanya@gmail.com', 'ACTIVE', 109, '2023-02-03 19:00:00.184000', '2023-02-03 19:00:00.184000', '2023-02-03 19:00:00.184000', 'abc');
 select SETVAL('users_id_seq', 2);
 
 
@@ -15,9 +19,9 @@ select SETVAL('roles_id_seq', 4);
 INSERT INTO user_roles (user_id, role_id, creation_date, modification_date)
 VALUES (1, 1, '2023-02-03 17:32:57.000000', '2023-02-03 17:32:57.000000');
 
-INSERT INTO tails (id, user_id, type, city, address, creation_date, modification_date, status, description)
-VALUES (1, 1, 'Cat', 'Zhlobin', '17-5', '2023-02-04 09:10:21.000000', '2023-02-04 09:10:21.000000', 'ACTIVE','test cat'),
-       (2, 2, 'Dog', 'Zhlobin', '18-9', '2023-02-04 09:10:21.000000', '2023-02-04 09:10:21.000000', 'ACTIVE','test dog');
+INSERT INTO tails (id, user_id, type, city_id, address, creation_date, modification_date, status, description)
+VALUES (1, 1, 'Cat', 109, '17-5', '2023-02-04 09:10:21.000000', '2023-02-04 09:10:21.000000', 'ACTIVE','test cat'),
+       (2, 2, 'Dog', 109, '18-9', '2023-02-04 09:10:21.000000', '2023-02-04 09:10:21.000000', 'ACTIVE','test dog');
 select SETVAL('tails_id_seq', 4);
 
 INSERT INTO images (id, tail_id, link, creation_date, modification_date, status)

@@ -3,6 +3,5 @@
   "login": "Test",
   "password": "2222",
   "email": "test@gmail.com",
-  "status": "ACTIVE",
-  "city": "Zhlobin"
+  "status": "ACTIVE"
 }

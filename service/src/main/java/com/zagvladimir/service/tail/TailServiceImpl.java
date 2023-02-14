@@ -32,8 +32,7 @@ public class TailServiceImpl implements TailService{
     public List<Tail> findAllWithStatusActive() {
         return tailDAO.findAll()
                 .stream().
-                filter(tail -> tail.getStatus() == Status.ACTIVE)
-                .collect(Collectors.toList());
+                filter(tail -> tail.getStatus() == Status.ACTIVE).toList();
     }
 
     @Override
@@ -47,7 +46,12 @@ public class TailServiceImpl implements TailService{
         var tailForDelete = tailDAO.findById(tailId);
         if(tailForDelete.isPresent()){
             tailForDelete.get().setStatus(Status.DELETED);
+            tailDAO.update(tailForDelete.get());
         }
-        tailDAO.update(tailForDelete.get());
+    }
+
+    @Override
+    public void deleteById(Integer tailId) {
+        tailDAO.delete(tailId);
     }
 }
