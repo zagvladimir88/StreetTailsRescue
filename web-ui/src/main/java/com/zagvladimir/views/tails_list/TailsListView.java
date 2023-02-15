@@ -22,7 +22,9 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
 import com.vaadin.flow.theme.lumo.LumoUtility.MaxWidth;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
+import com.zagvladimir.model.City;
 import com.zagvladimir.model.Tail;
+import com.zagvladimir.service.city.CityService;
 import com.zagvladimir.service.tail.TailServiceImpl;
 import com.zagvladimir.service.image.ImageService;
 import com.zagvladimir.views.MainLayout;
@@ -36,13 +38,15 @@ import java.util.List;
 public class TailsListView extends Main implements HasComponents, HasStyle {
 
     private OrderedList imageContainer;
-    private final TailServiceImpl tailService;
-    private final ImageService imageService;
+    private final transient TailServiceImpl tailService;
+    private final transient ImageService imageService;
+    private final transient CityService cityService;
 
     @Autowired
-    public TailsListView(TailServiceImpl tailService, ImageService imageService) {
+    public TailsListView(TailServiceImpl tailService, ImageService imageService, CityService cityService) {
         this.tailService = tailService;
         this.imageService = imageService;
+        this.cityService = cityService;
 
         constructUI();
         List<Tail> tailList = this.tailService.findAllWithStatusActive();
@@ -75,9 +79,8 @@ public class TailsListView extends Main implements HasComponents, HasStyle {
         headerContainer.add(header, description);
 
         Select<String> sortBy = new Select<>();
-        sortBy.setLabel("Sort by");
-        sortBy.setItems("Popularity", "Newest first", "Oldest first");
-        sortBy.setValue("Popularity");
+        sortBy.setLabel("Города");
+        sortBy.setItems(cityService.getCitiesWithTails().stream().map(City::getName).toList());
 
         imageContainer = new OrderedList();
         imageContainer.addClassNames(Gap.MEDIUM, Display.GRID, ListStyleType.NONE, Margin.NONE, Padding.NONE);

@@ -8,4 +8,6 @@ public interface CityService {
     City findCityByName(String name);
 
     List<City> getAllCityOrderByName();
+
+    List<City> getCitiesWithTails();
 }

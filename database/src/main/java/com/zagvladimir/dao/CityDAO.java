@@ -12,6 +12,8 @@ public interface CityDAO {
 
     List<City> getAllCityOrderByName();
 
+    List<City> getCitiesWithTails();
+
     City create(City city);
 
     City update(City city);

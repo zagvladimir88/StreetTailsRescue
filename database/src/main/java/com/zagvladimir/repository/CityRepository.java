@@ -12,4 +12,7 @@ public interface CityRepository extends JpaRepository<City,Integer> {
 
     @Query("SELECT c FROM City c ORDER BY c.name")
     List<City> getAllCityOrderByName();
+
+    @Query("SELECT DISTINCT c FROM City c JOIN c.tails t")
+    List<City> getCitiesWithTails();
 }

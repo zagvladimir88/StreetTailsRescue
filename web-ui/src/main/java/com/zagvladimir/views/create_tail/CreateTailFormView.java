@@ -10,13 +10,16 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.zagvladimir.model.City;
 import com.zagvladimir.model.Tail;
+import com.zagvladimir.service.city.CityService;
 import com.zagvladimir.service.image.ImageService;
 import com.zagvladimir.service.tail.TailService;
 import com.zagvladimir.service.user.UserService;
@@ -33,9 +36,12 @@ import java.io.InputStream;
 @Uses(Icon.class)
 @RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
 public class CreateTailFormView extends Div {
+    private final transient CityService cityService;
+    private final transient TailService tailService;
+    private final transient UserService userService;
 
     private final TextField type = new TextField("Вид хвостатого");
-    private final TextField city = new TextField("Город");
+    private final Select<String> city = new Select<>();
     private final TextField address = new TextField("Адресс хвостатого");
     private final TextField description = new TextField("Описание");
 
@@ -46,12 +52,10 @@ public class CreateTailFormView extends Div {
     private byte[] tailImage;
     private final transient ImageService imageService;
 
-    private final Binder<Tail> binder = new Binder<>(Tail.class);
-    private final transient TailService tailService;
-    private final transient UserService userService;
     private Authentication authentication;
 
-    public CreateTailFormView(TailService tailService, ImageService imageService, UserService userService) {
+    public CreateTailFormView(CityService cityService, TailService tailService, ImageService imageService, UserService userService) {
+        this.cityService = cityService;
         this.userService = userService;
         authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -66,17 +70,18 @@ public class CreateTailFormView extends Div {
         add(uploadImage());
         clearForm();
 
-        binder.bindInstanceFields(this);
-
     }
 
     private void clearForm() {
-        binder.setBean(new Tail());
+        type.clear();
+        city.setValue("Жлобин");
+        address.clear();
+        description.clear();
     }
+
 
     private Upload uploadImage(){
         tailImage = null;
-
         Upload upload = new Upload(buffer);
         upload.setMaxFiles(1);
         upload.addSucceededListener(event -> {
@@ -105,13 +110,13 @@ public class CreateTailFormView extends Div {
         HorizontalLayout buttonLayout = new HorizontalLayout();
         buttonLayout.addClassName("button-layout");
 
+        city.setLabel("City");
+        city.setItems(cityService.getAllCityOrderByName().stream().map(City::getName).toList());
+
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         save.addClickListener(e -> {
-            Tail tail = binder.getBean();
-            tail.setFinder(userService.findUserByLogin(authentication.getName()).get());
-            Integer newTailId = tailService.create(tail);
-            imageService.uploadFile(tailImage,newTailId,".jpg");
-            Notification.show(binder.getBean().getClass().getSimpleName() + " Tails stored.");
+            createNewTail();
+            Notification.show(" Tails stored.");
             clearForm();
         });
 
@@ -120,5 +125,19 @@ public class CreateTailFormView extends Div {
         buttonLayout.add(save);
         buttonLayout.add(cancel);
         return buttonLayout;
+    }
+
+
+
+    private void createNewTail(){
+        Tail newTail = new Tail();
+        newTail.setFinder(userService.findUserByLogin(authentication.getName()).get());
+        newTail.setType(type.getValue());
+        newTail.setCity(cityService.findCityByName(city.getValue()));
+        newTail.setAddress(address.getValue());
+        newTail.setDescription(description.getValue());
+
+        Integer newTailId = tailService.create(newTail);
+        imageService.uploadFile(tailImage,newTailId,".jpg");
     }
 }

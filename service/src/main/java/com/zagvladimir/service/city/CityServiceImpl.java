@@ -21,4 +21,9 @@ public class CityServiceImpl implements CityService{
     public List<City> getAllCityOrderByName() {
         return cityDAO.getAllCityOrderByName();
     }
+
+    @Override
+    public List<City> getCitiesWithTails() {
+        return cityDAO.getCitiesWithTails();
+    }
 }

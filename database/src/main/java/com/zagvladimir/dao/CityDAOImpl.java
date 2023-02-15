@@ -32,6 +32,11 @@ public class CityDAOImpl implements CityDAO{
     }
 
     @Override
+    public List<City> getCitiesWithTails() {
+        return repository.getCitiesWithTails();
+    }
+
+    @Override
     public City create(City city) {
         return repository.save(city);
     }
