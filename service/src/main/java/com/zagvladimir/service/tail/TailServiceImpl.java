@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -33,6 +32,11 @@ public class TailServiceImpl implements TailService{
         return tailDAO.findAll()
                 .stream().
                 filter(tail -> tail.getStatus() == Status.ACTIVE).toList();
+    }
+
+    @Override
+    public List<Tail> findTailsByCityAndStatusContaining(String city, Status status) {
+        return tailDAO.findTailsByCityAndStatusContaining(city,status);
     }
 
     @Override
