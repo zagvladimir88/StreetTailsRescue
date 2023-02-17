@@ -9,38 +9,30 @@ import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-import com.vaadin.flow.theme.lumo.LumoUtility.AlignItems;
-import com.vaadin.flow.theme.lumo.LumoUtility.Display;
-import com.vaadin.flow.theme.lumo.LumoUtility.FontSize;
-import com.vaadin.flow.theme.lumo.LumoUtility.Gap;
-import com.vaadin.flow.theme.lumo.LumoUtility.JustifyContent;
-import com.vaadin.flow.theme.lumo.LumoUtility.ListStyleType;
-import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
-import com.vaadin.flow.theme.lumo.LumoUtility.MaxWidth;
-import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
-import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
+import com.vaadin.flow.theme.lumo.LumoUtility.*;
 import com.zagvladimir.model.City;
 import com.zagvladimir.model.Tail;
 import com.zagvladimir.service.city.CityService;
-import com.zagvladimir.service.tail.TailServiceImpl;
 import com.zagvladimir.service.image.ImageService;
+import com.zagvladimir.service.tail.TailServiceImpl;
 import com.zagvladimir.views.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 @PageTitle("Хвостатые")
-@Route(value = "tail-list", layout = MainLayout.class)
+@Route(value = "tail-list/:citySort?", layout = MainLayout.class)
 @AnonymousAllowed
-public class TailsListView extends Main implements HasComponents, HasStyle {
+public class TailsListView extends Main implements HasComponents, HasStyle , BeforeEnterObserver {
 
-    private OrderedList imageContainer;
     private final transient TailServiceImpl tailService;
     private final transient ImageService imageService;
     private final transient CityService cityService;
+    private OrderedList imageContainer;
+    private Optional<String> citySortParam;
 
     @Autowired
     public TailsListView(TailServiceImpl tailService, ImageService imageService, CityService cityService) {
@@ -49,7 +41,17 @@ public class TailsListView extends Main implements HasComponents, HasStyle {
         this.cityService = cityService;
 
         constructUI();
+
+    }
+
+    private void createTailList() {
         List<Tail> tailList = this.tailService.findAllWithStatusActive();
+        if(citySortParam.isPresent()) {
+            tailList = tailList.stream()
+                    .filter(tail -> tail.getCity().getName().equals(citySortParam.get()))
+                    .toList();
+        }
+
 
         for (Tail tail : tailList) {
             var urls = this.imageService.getUrls(tail.getId());
@@ -62,6 +64,7 @@ public class TailsListView extends Main implements HasComponents, HasStyle {
                     url ,tail.getId());
             imageContainer.add(imageListViewCard);
          }
+
     }
 
     private void constructUI() {
@@ -80,7 +83,17 @@ public class TailsListView extends Main implements HasComponents, HasStyle {
 
         Select<String> sortBy = new Select<>();
         sortBy.setLabel("Города");
-        sortBy.setItems(cityService.getCitiesWithTails().stream().map(City::getName).toList());
+        sortBy.setItems(cityService.getCitiesWithTails()
+                .stream()
+                .map(City::getName)
+                .toList());
+        sortBy.addValueChangeListener(event -> {
+            imageContainer.removeAll();
+            sortBy.getUI().ifPresent(ui -> ui.navigate(
+                TailsListView.class,
+                new RouteParameters("citySort", sortBy.getValue())));
+
+        });
 
         imageContainer = new OrderedList();
         imageContainer.addClassNames(Gap.MEDIUM, Display.GRID, ListStyleType.NONE, Margin.NONE, Padding.NONE);
@@ -88,5 +101,11 @@ public class TailsListView extends Main implements HasComponents, HasStyle {
         container.add(headerContainer, sortBy);
         add(container, imageContainer);
 
+    }
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
+        citySortParam = beforeEnterEvent.getRouteParameters().get("citySort");
+        createTailList();
     }
 }
