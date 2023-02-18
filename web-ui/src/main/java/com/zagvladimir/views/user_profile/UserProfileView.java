@@ -53,11 +53,6 @@ public class UserProfileView extends VerticalLayout {
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         getStyle().set("text-align", "center");
     }
-//
-//    @Override
-//    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-//
-//    }
 
     private Div tailInfoTab(){
         List<Tail> tails = userService.getAllTails(userID);
@@ -66,7 +61,7 @@ public class UserProfileView extends VerticalLayout {
         grid.setItems(tails);
         grid.addColumn(Tail::getType).setHeader("Вид");
         grid.addColumn(Tail::getAddress).setHeader("Адресс");
-        grid.addColumn(Tail::getCity).setHeader("город");
+        grid.addColumn(tail -> tail.getCity().getName()).setHeader("город");
         grid.addColumn(Tail::getDescription).setHeader("описание");
         grid.addColumn(
                 new ComponentRenderer<>(Button::new, (button, tail) -> {
@@ -86,7 +81,7 @@ public class UserProfileView extends VerticalLayout {
         Span name = new Span(String.format("Имя: %s",userById.getFirstName()));
         Span login = new Span(String.format("Логин: %s",userById.getLogin()));
         Span email = new Span(String.format("Электронный адресс: %s",userById.getEmail()));
-        Span city = new Span(String.format("Город: %s",userById.getCity()));
+        Span city = new Span(String.format("Город: %s",userById.getCity().getName()));
         Span tailsCount = new Span(String.format("Добавлено хвостов: %s", userById.getTails().size()));
 
         return new VerticalLayout(name,login,email, city,tailsCount);
