@@ -20,11 +20,12 @@ import com.vaadin.flow.theme.lumo.LumoUtility.Overflow;
 import com.vaadin.flow.theme.lumo.LumoUtility.Padding;
 import com.vaadin.flow.theme.lumo.LumoUtility.TextColor;
 import com.vaadin.flow.theme.lumo.LumoUtility.Width;
+import com.zagvladimir.model.City;
 import com.zagvladimir.views.tail.TailsView;
 
 public class TailsCardView extends ListItem {
 
-    public TailsCardView(String paragraph, String title, String sub, String url, Integer id) {
+    public TailsCardView(String tailDescription, String type, String address, City tailCity, String url, Integer id) {
         addClassNames(Background.CONTRAST_5, Display.FLEX, FlexDirection.COLUMN, AlignItems.START, Padding.MEDIUM,
                 BorderRadius.LARGE);
 
@@ -42,13 +43,13 @@ public class TailsCardView extends ListItem {
 
         Span header = new Span();
         header.addClassNames(FontSize.XLARGE, FontWeight.SEMIBOLD);
-        header.setText(title);
+        header.setText(type);
 
         Span subtitle = new Span();
         subtitle.addClassNames(FontSize.SMALL, TextColor.SECONDARY);
-        subtitle.setText(sub);
+        subtitle.setText(tailCity.getName() + ": " + address);
 
-        Paragraph description = new Paragraph(paragraph);
+        Paragraph description = new Paragraph(tailDescription);
         description.addClassName(Margin.Vertical.MEDIUM);
 
         Span badge = new Span();

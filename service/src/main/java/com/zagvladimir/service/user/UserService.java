@@ -19,5 +19,8 @@ public interface UserService {
     List<User> findAll();
 
     void deleteUserById(Integer userId);
+
     void softDeleteUserById(Integer userId);
+
+    Boolean isUserAdmin(String login);
 }

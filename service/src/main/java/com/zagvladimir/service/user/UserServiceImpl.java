@@ -94,6 +94,13 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    @Override
+    public Boolean isUserAdmin(String login) {
+        var rolesByUserLogin = roleDAO.findRolesByUserLogin(login);
+        var admin = roleDAO.findRoleByName("ROLE_ADMIN");
+        return rolesByUserLogin.contains(admin);
+    }
+
     private void addRole(User user, Role role) {
         Set<Role> rolesList = new HashSet<>();
         rolesList.add(role);
