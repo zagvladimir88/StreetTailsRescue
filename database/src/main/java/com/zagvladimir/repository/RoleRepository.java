@@ -14,4 +14,7 @@ public interface RoleRepository extends JpaRepository<Role,Integer> {
     List<Role> findRolesByUserid(int userId);
 
     Role findRoleByName(String roleName);
+
+    @Query("select r from Role r inner join r.users u where u.login = :login")
+    List<Role> findRolesByUserLogin(String login);
 }

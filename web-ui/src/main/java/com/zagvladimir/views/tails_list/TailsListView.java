@@ -32,7 +32,7 @@ public class TailsListView extends Main implements HasComponents, HasStyle , Bef
     private final transient ImageService imageService;
     private final transient CityService cityService;
     private OrderedList imageContainer;
-    private Optional<String> citySortParam;
+    private transient Optional<String> citySortParam;
 
     @Autowired
     public TailsListView(TailServiceImpl tailService, ImageService imageService, CityService cityService) {
@@ -46,6 +46,8 @@ public class TailsListView extends Main implements HasComponents, HasStyle , Bef
 
     private void createTailList() {
         List<Tail> tailList = this.tailService.findAllWithStatusActive();
+
+
         if(citySortParam.isPresent()) {
             tailList = tailList.stream()
                     .filter(tail -> tail.getCity().getName().equals(citySortParam.get()))
@@ -60,8 +62,14 @@ public class TailsListView extends Main implements HasComponents, HasStyle , Bef
                 url = "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80";
 
             } else url = urls.get(0).toString();
-            var imageListViewCard = new TailsCardView(tail.getDescription(),tail.getType(),tail.getAddress(),
-                    url ,tail.getId());
+
+            var imageListViewCard = new TailsCardView(tail.getDescription(),
+                    tail.getType(),
+                    tail.getAddress(),
+                    tail.getCity(),
+                    url,
+                    tail.getId());
+
             imageContainer.add(imageListViewCard);
          }
 

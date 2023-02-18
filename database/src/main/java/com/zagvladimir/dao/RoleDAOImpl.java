@@ -33,6 +33,11 @@ public class RoleDAOImpl implements RoleDAO {
     }
 
     @Override
+    public List<Role> findRolesByUserLogin(String login) {
+        return repository.findRolesByUserLogin(login);
+    }
+
+    @Override
     public Role findRoleByName(String name) {
         return repository.findRoleByName(name);
     }
