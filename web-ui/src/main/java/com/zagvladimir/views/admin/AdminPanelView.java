@@ -47,13 +47,8 @@ public class AdminPanelView extends VerticalLayout {
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
         getStyle().set("text-align", "center");
     }
-//
-//    @Override
-//    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-//
-//    }
 
-    private Div tailInfoTab(){
+    private Div tailInfoTab() {
         List<Tail> tails = tailService.findAll();
 
         Grid<Tail> grid = new Grid<>();
@@ -84,7 +79,7 @@ public class AdminPanelView extends VerticalLayout {
     }
 
     @SneakyThrows
-    private Div userInfoTab(){
+    private Div userInfoTab() {
         List<User> users = userService.findAll();
 
         Grid<User> grid = new Grid<>();

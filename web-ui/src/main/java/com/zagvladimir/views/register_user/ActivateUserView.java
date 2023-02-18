@@ -4,7 +4,10 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.*;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.zagvladimir.service.user.UserService;
 import com.zagvladimir.views.MainLayout;
@@ -14,7 +17,7 @@ import com.zagvladimir.views.MainLayout;
 @AnonymousAllowed
 public class ActivateUserView extends VerticalLayout implements BeforeEnterObserver {
 
-    private final UserService userService;
+    private final transient UserService userService;
 
     public ActivateUserView(UserService userService) {
         this.userService = userService;
@@ -32,12 +35,12 @@ public class ActivateUserView extends VerticalLayout implements BeforeEnterObser
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
         String activateCode = null;
         boolean isActivated = false;
-        if(beforeEnterEvent.getRouteParameters().get("activateCode").isPresent()){
-        activateCode = beforeEnterEvent.getRouteParameters().get("activateCode").get();
-        isActivated = userService.activateUser(activateCode);
+        if (beforeEnterEvent.getRouteParameters().get("activateCode").isPresent()) {
+            activateCode = beforeEnterEvent.getRouteParameters().get("activateCode").get();
+            isActivated = userService.activateUser(activateCode);
         }
 
-        if(isActivated){
+        if (isActivated) {
             add(new H2("Thank you for registration"));
             add(new Paragraph("This is the place where you can find your furry friend.🤗"));
         } else {

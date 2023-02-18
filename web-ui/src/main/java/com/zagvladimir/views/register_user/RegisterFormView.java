@@ -83,12 +83,11 @@ public class RegisterFormView extends Div {
 
 
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-                save.addClickListener(e -> {
+        save.addClickListener(e -> {
             registerNewUser();
-            Notification.show( " details stored.");
+            Notification.show(" details stored.");
             clearForm();
         });
-
 
         cancel.addClickListener(e -> clearForm());
         buttonLayout.add(save);
@@ -96,7 +95,7 @@ public class RegisterFormView extends Div {
         return buttonLayout;
     }
 
-    private void registerNewUser(){
+    private void registerNewUser() {
         User newUser = new User();
         newUser.setFirstName(firstName.getValue());
         newUser.setLogin(login.getValue());

@@ -8,7 +8,10 @@ import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.*;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.zagvladimir.service.image.ImageService;
 import com.zagvladimir.service.tail.TailServiceImpl;
@@ -19,11 +22,10 @@ import java.net.URL;
 @PageTitle("Хвостатые")
 @Route(value = "tails/:tailID?", layout = MainLayout.class)
 @AnonymousAllowed
-public class TailsView extends VerticalLayout implements BeforeEnterObserver{
+public class TailsView extends VerticalLayout implements BeforeEnterObserver {
 
-    private String tailId;
-    private final TailServiceImpl tailService;
-    private final ImageService imageService;
+    private final transient TailServiceImpl tailService;
+    private final transient ImageService imageService;
 
     public TailsView(TailServiceImpl tailService, ImageService imageService) {
         this.tailService = tailService;
@@ -37,7 +39,7 @@ public class TailsView extends VerticalLayout implements BeforeEnterObserver{
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        tailId = beforeEnterEvent.getRouteParameters().get("tailID").
+        String tailId = beforeEnterEvent.getRouteParameters().get("tailID").
                 orElse("22");
 
         var imageUrls = imageService.getUrls(Integer.valueOf(tailId));
@@ -46,7 +48,7 @@ public class TailsView extends VerticalLayout implements BeforeEnterObserver{
         var horizontalLayout = new HorizontalLayout();
         for (URL url : imageUrls) {
             var tailImage = new Image(url.toString(), "tail");
-            tailImage.setWidth(50f,Unit.PERCENTAGE);
+            tailImage.setWidth(50f, Unit.PERCENTAGE);
             tailImage.addClickListener(e -> UI.getCurrent().getPage().open(url.toString()));
             horizontalLayout.add(tailImage);
         }

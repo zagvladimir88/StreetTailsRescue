@@ -5,7 +5,6 @@ import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.html.OrderedList;
-import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
@@ -26,7 +25,7 @@ import java.util.Optional;
 @PageTitle("Хвостатые")
 @Route(value = "tail-list/:citySort?", layout = MainLayout.class)
 @AnonymousAllowed
-public class TailsListView extends Main implements HasComponents, HasStyle , BeforeEnterObserver {
+public class TailsListView extends Main implements HasComponents, HasStyle, BeforeEnterObserver {
 
     private final transient TailServiceImpl tailService;
     private final transient ImageService imageService;
@@ -48,7 +47,7 @@ public class TailsListView extends Main implements HasComponents, HasStyle , Bef
         List<Tail> tailList = this.tailService.findAllWithStatusActive();
 
 
-        if(citySortParam.isPresent()) {
+        if (citySortParam.isPresent()) {
             tailList = tailList.stream()
                     .filter(tail -> tail.getCity().getName().equals(citySortParam.get()))
                     .toList();
@@ -58,7 +57,7 @@ public class TailsListView extends Main implements HasComponents, HasStyle , Bef
         for (Tail tail : tailList) {
             var urls = this.imageService.getUrls(tail.getId());
             String url;
-            if(urls.isEmpty()) {
+            if (urls.isEmpty()) {
                 url = "https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80";
 
             } else url = urls.get(0).toString();
@@ -71,7 +70,7 @@ public class TailsListView extends Main implements HasComponents, HasStyle , Bef
                     tail.getId());
 
             imageContainer.add(imageListViewCard);
-         }
+        }
 
     }
 
@@ -83,11 +82,9 @@ public class TailsListView extends Main implements HasComponents, HasStyle , Bef
         container.addClassNames(AlignItems.CENTER, JustifyContent.BETWEEN);
 
         VerticalLayout headerContainer = new VerticalLayout();
-        H2 header = new H2("Beautiful photos");
+        H2 header = new H2("Все хвосты");
         header.addClassNames(Margin.Bottom.NONE, Margin.Top.XLARGE, FontSize.XXXLARGE);
-        Paragraph description = new Paragraph("Royalty free photos and pictures, courtesy of Unsplash");
-        description.addClassNames(Margin.Bottom.XLARGE, Margin.Top.NONE, TextColor.SECONDARY);
-        headerContainer.add(header, description);
+        headerContainer.add(header);
 
         Select<String> sortBy = new Select<>();
         sortBy.setLabel("Города");
@@ -98,8 +95,8 @@ public class TailsListView extends Main implements HasComponents, HasStyle , Bef
         sortBy.addValueChangeListener(event -> {
             imageContainer.removeAll();
             sortBy.getUI().ifPresent(ui -> ui.navigate(
-                TailsListView.class,
-                new RouteParameters("citySort", sortBy.getValue())));
+                    TailsListView.class,
+                    new RouteParameters("citySort", sortBy.getValue())));
 
         });
 

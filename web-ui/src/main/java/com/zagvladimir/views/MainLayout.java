@@ -29,9 +29,6 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-/**
- * The main view is a top-level placeholder for other views.
- */
 @Route(value = "")
 @AnonymousAllowed
 public class MainLayout extends AppLayout {
@@ -82,7 +79,6 @@ public class MainLayout extends AppLayout {
         }
 
 
-
     }
 
     private void addDrawerContent() {
@@ -96,10 +92,7 @@ public class MainLayout extends AppLayout {
     }
 
     private AppNav createNavigation() {
-        // AppNav is not yet an official component.
-        // For documentation, visit https://github.com/vaadin/vcf-nav#readme
         AppNav nav = new AppNav();
-
 
         nav.addItem(new AppNavItem("Хвостатые", TailsListView.class, "la la-peace"));
         nav.addItem(new AppNavItem("О нас", AboutView.class, "la la-file"));
@@ -107,8 +100,8 @@ public class MainLayout extends AppLayout {
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             nav.addItem(new AppNavItem("Профиль", UserProfileView.class, "la la-user"));
             nav.addItem(new AppNavItem("Добавить хвостатого", CreateTailFormView.class, "la la-gitlab"));
-            if(userService.isUserAdmin(authentication.getName())){
-                 nav.addItem(new AppNavItem("Администрирование", AdminPanelView.class, "la la-user-check"));
+            if (userService.isUserAdmin(authentication.getName())) {
+                nav.addItem(new AppNavItem("Администрирование", AdminPanelView.class, "la la-user-check"));
             }
         }
 

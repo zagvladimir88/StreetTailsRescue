@@ -14,7 +14,6 @@ import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.zagvladimir.model.City;
@@ -34,7 +33,7 @@ import java.io.InputStream;
 @PageTitle("Добавление нового хвостатого")
 @Route(value = "tail-form", layout = MainLayout.class)
 @Uses(Icon.class)
-@RolesAllowed({"ROLE_ADMIN","ROLE_USER"})
+@RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
 public class CreateTailFormView extends Div {
     private final transient CityService cityService;
     private final transient TailService tailService;
@@ -49,9 +48,8 @@ public class CreateTailFormView extends Div {
     private final Button save = new Button("Сохранить");
 
     private final MultiFileMemoryBuffer buffer = new MultiFileMemoryBuffer();
-    private byte[] tailImage;
     private final transient ImageService imageService;
-
+    private byte[] tailImage;
     private Authentication authentication;
 
     public CreateTailFormView(CityService cityService, TailService tailService, ImageService imageService, UserService userService) {
@@ -80,7 +78,7 @@ public class CreateTailFormView extends Div {
     }
 
 
-    private Upload uploadImage(){
+    private Upload uploadImage() {
         tailImage = null;
         Upload upload = new Upload(buffer);
         upload.setMaxFiles(1);
@@ -128,8 +126,7 @@ public class CreateTailFormView extends Div {
     }
 
 
-
-    private void createNewTail(){
+    private void createNewTail() {
         Tail newTail = new Tail();
         newTail.setFinder(userService.findUserByLogin(authentication.getName()).get());
         newTail.setType(type.getValue());
@@ -138,6 +135,6 @@ public class CreateTailFormView extends Div {
         newTail.setDescription(description.getValue());
 
         Integer newTailId = tailService.create(newTail);
-        imageService.uploadFile(tailImage,newTailId,".jpg");
+        imageService.uploadFile(tailImage, newTailId, ".jpg");
     }
 }

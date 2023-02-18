@@ -21,26 +21,23 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
+    private static final String ACTIVATION_URL =
+            "http://localhost:8080/activate/%s/";
     private final UserDAOImpl userDAO;
     private final RoleDAO roleDAO;
     private final MailSenderService mailSenderService;
 
-    private static final String ACTIVATION_URL =
-            "http://localhost:8080/activate/%s/";
-
-
-
     @SneakyThrows
     @Transactional
     public void register(User user) {
-        addRole(user,roleDAO.findRoleByName("ROLE_USER"));
+        addRole(user, roleDAO.findRoleByName("ROLE_USER"));
         user.setRegistrationDate(new Timestamp(new Date().getTime()));
         user.setStatus(Status.NOT_ACTIVE);
         user.setActivationCode(UUIDGenerator.generatedUI());
         User newUser = userDAO.create(user);
 
-        if(newUser.getEmail() != null){
+        if (newUser.getEmail() != null) {
             sendEmail(user);
         }
     }
@@ -88,7 +85,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void softDeleteUserById(Integer userId) {
         var userForDelete = userDAO.findById(userId);
-        if(userForDelete.isPresent()){
+        if (userForDelete.isPresent()) {
             userForDelete.get().setStatus(Status.DELETED);
             userDAO.update(userForDelete.get());
         }

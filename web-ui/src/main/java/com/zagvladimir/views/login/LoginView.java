@@ -17,7 +17,7 @@ import com.zagvladimir.security.AuthenticatedUser;
 @Route(value = "login")
 public class LoginView extends LoginOverlay implements BeforeEnterObserver {
 
-    private final AuthenticatedUser authenticatedUser;
+    private final transient AuthenticatedUser authenticatedUser;
 
     public LoginView(AuthenticatedUser authenticatedUser) {
         this.authenticatedUser = authenticatedUser;

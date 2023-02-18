@@ -25,7 +25,7 @@ import java.util.List;
 
 @PageTitle("Профиль")
 @Route(value = "profile", layout = MainLayout.class)
-@RolesAllowed({"ROLE_USER","ROLE_ADMIN"})
+@RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
 public class UserProfileView extends VerticalLayout {
     private final transient UserService userService;
     private final transient TailService tailService;
@@ -54,7 +54,7 @@ public class UserProfileView extends VerticalLayout {
         getStyle().set("text-align", "center");
     }
 
-    private Div tailInfoTab(){
+    private Div tailInfoTab() {
         List<Tail> tails = userService.getAllTails(userID);
 
         Grid<Tail> grid = new Grid<>();
@@ -76,14 +76,14 @@ public class UserProfileView extends VerticalLayout {
     }
 
     @SneakyThrows
-    private VerticalLayout userInfoTab(){
+    private VerticalLayout userInfoTab() {
         var userById = userService.findById(userID);
-        Span name = new Span(String.format("Имя: %s",userById.getFirstName()));
-        Span login = new Span(String.format("Логин: %s",userById.getLogin()));
-        Span email = new Span(String.format("Электронный адресс: %s",userById.getEmail()));
-        Span city = new Span(String.format("Город: %s",userById.getCity().getName()));
+        Span name = new Span(String.format("Имя: %s", userById.getFirstName()));
+        Span login = new Span(String.format("Логин: %s", userById.getLogin()));
+        Span email = new Span(String.format("Электронный адресс: %s", userById.getEmail()));
+        Span city = new Span(String.format("Город: %s", userById.getCity().getName()));
         Span tailsCount = new Span(String.format("Добавлено хвостов: %s", userById.getTails().size()));
 
-        return new VerticalLayout(name,login,email, city,tailsCount);
+        return new VerticalLayout(name, login, email, city, tailsCount);
     }
 }
