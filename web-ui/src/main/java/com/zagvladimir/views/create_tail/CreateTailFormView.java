@@ -57,6 +57,7 @@ public class CreateTailFormView extends Div {
         this.userService = userService;
         authentication = SecurityContextHolder.getContext().getAuthentication();
 
+
         this.imageService = imageService;
         this.tailService = tailService;
 

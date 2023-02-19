@@ -73,8 +73,6 @@ public class AdminPanelView extends VerticalLayout {
                     button.addClickListener(e -> userService.softDeleteUserById(user.getId()));
                     button.setIcon(new Icon(VaadinIcon.TRASH));
                 })).setHeader("Мягкое удаление");
-
-
         return new Div(grid);
     }
 
@@ -106,6 +104,14 @@ public class AdminPanelView extends VerticalLayout {
                     button.addClickListener(e -> userService.softDeleteUserById(user.getId()));
                     button.setIcon(new Icon(VaadinIcon.TRASH));
                 })).setHeader("Мягкое удаление");
+        grid.addColumn(
+                new ComponentRenderer<>(Button::new, (button, user) -> {
+                    button.addThemeVariants(ButtonVariant.LUMO_ICON,
+                            ButtonVariant.LUMO_ERROR,
+                            ButtonVariant.LUMO_TERTIARY);
+                    button.addClickListener(e -> userService.banUser(user.getId()));
+                    button.setIcon(new Icon(VaadinIcon.BAN));
+                })).setHeader("Бан");
         return new Div(grid);
     }
 }

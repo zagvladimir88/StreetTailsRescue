@@ -23,4 +23,9 @@ public interface UserService {
     void softDeleteUserById(Integer userId);
 
     Boolean isUserAdmin(String login);
+
+    boolean isBanned(Integer userID);
+
+    void banUser(Integer userID);
+
 }

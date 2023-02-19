@@ -17,6 +17,8 @@ import com.vaadin.flow.spring.security.AuthenticationContext;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import com.zagvladimir.components.appnav.AppNav;
 import com.zagvladimir.components.appnav.AppNavItem;
+import com.zagvladimir.model.User;
+import com.zagvladimir.model.enums.Status;
 import com.zagvladimir.service.user.UserService;
 import com.zagvladimir.views.about.AboutView;
 import com.zagvladimir.views.admin.AdminPanelView;
@@ -28,6 +30,8 @@ import com.zagvladimir.views.user_profile.UserProfileView;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.Optional;
 
 @Route(value = "")
 @AnonymousAllowed
@@ -67,6 +71,11 @@ public class MainLayout extends AppLayout {
         addToNavbar(registerButton);
 
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            Optional<User> userByLogin = userService.findUserByLogin(authentication.getName());
+            if (!userByLogin.get().getStatus().equals(Status.ACTIVE)) {
+                authContext.logout();
+            }
+
             loginButton.setVisible(false);
             registerButton.setVisible(false);
 

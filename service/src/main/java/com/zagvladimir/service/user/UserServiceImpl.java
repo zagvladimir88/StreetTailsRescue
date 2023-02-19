@@ -103,6 +103,24 @@ public class UserServiceImpl implements UserService {
         return rolesByUserLogin.contains(admin);
     }
 
+    @Override
+    public boolean isBanned(Integer userID) {
+        var user = userDAO.findById(userID);
+        if(user.isPresent()) {
+            return user.get().getStatus().equals(Status.BANNED);
+        }
+        throw new EntityNotFoundException(String.format("User with id:%s not exist",userID));
+    }
+
+    @Override
+    public void banUser(Integer userID) {
+        Optional<User> user = userDAO.findById(userID);
+        if (user.isPresent()) {
+            user.get().setStatus(Status.BANNED);
+            userDAO.update(user.get());
+        }
+    }
+
     private void addRole(User user, Role role) {
         Set<Role> rolesList = new HashSet<>();
         rolesList.add(role);
