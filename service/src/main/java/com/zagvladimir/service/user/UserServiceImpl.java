@@ -11,6 +11,7 @@ import com.zagvladimir.service.mail.MailSenderService;
 import com.zagvladimir.util.UUIDGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -28,6 +29,9 @@ public class UserServiceImpl implements UserService {
     private final RoleDAO roleDAO;
     private final MailSenderService mailSenderService;
 
+    private final BCryptPasswordEncoder passwordEncoder;
+
+
     @SneakyThrows
     @Transactional
     public void register(User user) {
@@ -35,6 +39,7 @@ public class UserServiceImpl implements UserService {
         user.setRegistrationDate(new Timestamp(new Date().getTime()));
         user.setStatus(Status.NOT_ACTIVE);
         user.setActivationCode(UUIDGenerator.generatedUI());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User newUser = userDAO.create(user);
 
         if (newUser.getEmail() != null) {

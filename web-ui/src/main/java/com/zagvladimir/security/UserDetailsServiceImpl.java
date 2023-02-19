@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.zagvladimir.model.User;
+import com.zagvladimir.model.enums.Status;
 import com.zagvladimir.service.user.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByLogin(username).get();
-        if (user == null) {
+        if (user == null || user.getStatus().equals(Status.NOT_ACTIVE)) {
             throw new UsernameNotFoundException("No user present with username: " + username);
         } else {
             return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(),
