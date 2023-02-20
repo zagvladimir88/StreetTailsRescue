@@ -35,11 +35,6 @@ public class TailServiceImpl implements TailService{
     }
 
     @Override
-    public List<Tail> findTailsByCityAndStatusContaining(String city, Status status) {
-        return tailDAO.findTailsByCityAndStatusContaining(city,status);
-    }
-
-    @Override
     public Integer create(Tail tail) {
         Tail newTail =  tailDAO.create(tail);
         return newTail.getId();

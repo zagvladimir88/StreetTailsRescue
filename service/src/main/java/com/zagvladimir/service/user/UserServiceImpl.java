@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final UserDAOImpl userDAO;
     private final RoleDAO roleDAO;
     private final MailSenderService mailSenderService;
+    private final UUIDGenerator uuidGenerator;
 
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
         addRole(user, roleDAO.findRoleByName("ROLE_USER"));
         user.setRegistrationDate(new Timestamp(new Date().getTime()));
         user.setStatus(Status.NOT_ACTIVE);
-        user.setActivationCode(UUIDGenerator.generatedUI());
+        user.setActivationCode(uuidGenerator.getUuid());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User newUser = userDAO.create(user);
 

@@ -1,9 +1,15 @@
 package com.zagvladimir.util;
 
-import java.util.UUID;
+import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+import java.util.function.Supplier;
+
+@Component
 public class UUIDGenerator {
-    public static String generatedUI(){
-        return UUID.randomUUID().toString();
+    private final Supplier<UUID> uuidSupplier = UUID::randomUUID;
+
+    public String getUuid() {
+        return uuidSupplier.get().toString();
     }
 }

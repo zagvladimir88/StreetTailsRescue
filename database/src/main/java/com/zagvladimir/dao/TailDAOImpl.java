@@ -1,7 +1,6 @@
 package com.zagvladimir.dao;
 
 import com.zagvladimir.model.Tail;
-import com.zagvladimir.model.enums.Status;
 import com.zagvladimir.repository.TailRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +25,6 @@ public class TailDAOImpl implements TailDAO {
     @Override
     public List<Tail> findAll() {
         return tailRepository.findAll();
-    }
-
-    @Override
-    public List<Tail> findTailsByCityAndStatusContaining(String city, Status status) {
-        return tailRepository.findTailsByCityAndStatusContaining(city, status);
     }
 
     @Override
