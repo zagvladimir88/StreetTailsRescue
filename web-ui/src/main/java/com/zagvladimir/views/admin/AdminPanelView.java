@@ -55,7 +55,7 @@ public class AdminPanelView extends VerticalLayout {
         grid.setItems(tails);
         grid.addColumn(Tail::getType).setHeader("Вид");
         grid.addColumn(Tail::getAddress).setHeader("Адресс");
-        grid.addColumn(Tail::getCity).setHeader("город");
+        grid.addColumn(tail -> tail.getCity().getName()).setHeader("город").setAutoWidth(true);;
         grid.addColumn(Tail::getDescription).setHeader("описание");
         grid.addColumn(
                 new ComponentRenderer<>(Button::new, (button, tail) -> {
@@ -85,7 +85,7 @@ public class AdminPanelView extends VerticalLayout {
         grid.addColumn(User::getFirstName).setHeader("Имя");
         grid.addColumn(User::getLogin).setHeader("Логин");
         grid.addColumn(User::getEmail).setHeader("email").setAutoWidth(true);
-        grid.addColumn(user -> user.getCity().getName()).setHeader("Город");
+        grid.addColumn(user -> user.getCity().getName()).setHeader("Город").setAutoWidth(true);;
         grid.addColumn(User::getStatus).setHeader("Статус");
 
         grid.addColumn(
