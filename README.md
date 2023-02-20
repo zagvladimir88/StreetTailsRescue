@@ -39,3 +39,9 @@ on the backend side.
 Vaadin: Framework for building web applications with Java. Used to create a simple web representation of services and data
 
 # Screenshots
+### Interface
+![](https://github.com/zagvladimir88/StreetTailsRescue/blob/master/raw/interface.gif) 
+### About page
+![About page](https://github.com/zagvladimir88/StreetTailsRescue/blob/master/raw/about.jpg)
+### Admin panel
+![admin panel](https://github.com/zagvladimir88/StreetTailsRescue/blob/master/raw/admin_panel.jpg)
