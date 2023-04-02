@@ -37,13 +37,13 @@ class ImageDAOImplTest extends BaseIntegrationTest {
 
 
     @Test
-    void findImagesByTailId() {
+    void testFindImagesByTailId() {
         var actualResult = imageDAO.findImagesByTailId(1);
         assertThat(actualResult).isNotNull();
     }
 
     @Test
-    void findById() {
+    void testFindById() {
         var actualResult = imageDAO.findById(1);
         if (actualResult.isPresent()) {
             assertEquals(TEST_IMAGE_1, actualResult.get());
@@ -53,7 +53,7 @@ class ImageDAOImplTest extends BaseIntegrationTest {
     }
 
     @Test
-    void findAll() {
+    void testFindAll() {
         List<Image> result = new ArrayList<>();
         result.add(TEST_IMAGE_1);
         result.add(TEST_IMAGE_2);
@@ -65,7 +65,7 @@ class ImageDAOImplTest extends BaseIntegrationTest {
 
     @Test
     @SneakyThrows
-    void create() {
+    void testCreate() {
         TEST_IMAGE_1.setLink("newLink");
 
         Image actualResult = imageDAO.create(TEST_IMAGE_1);
@@ -75,7 +75,7 @@ class ImageDAOImplTest extends BaseIntegrationTest {
     }
 
     @Test
-    void update() {
+    void testUpdate() {
         TEST_IMAGE_1.setId(1);
         TEST_IMAGE_1.setLink("updateLink");
 
@@ -86,7 +86,7 @@ class ImageDAOImplTest extends BaseIntegrationTest {
     }
 
     @Test
-    void delete() {
+    void testDelete() {
         imageDAO.delete(2);
 
         List<Image> actualResult = imageDAO.findAll();
