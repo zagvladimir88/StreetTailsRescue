@@ -1,8 +1,8 @@
 package com.zagvladimir.service.city;
 
-import com.zagvladimir.dao.CityDAOImpl;
 import com.zagvladimir.model.City;
 import com.zagvladimir.model.Tail;
+import com.zagvladimir.repository.CityRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.when;
 class CityServiceImplTest {
 
     @Mock
-    private CityDAOImpl cityDAO;
+    private CityRepository cityRepository;
 
     @InjectMocks
     private CityServiceImpl cityService;
@@ -29,7 +29,7 @@ class CityServiceImplTest {
         City expectedCity = new City();
         expectedCity.setName("Zhlobin");
 
-        when(cityDAO.findCityByName("Zhlobin")).thenReturn(expectedCity);
+        when(cityRepository.findCityByName("Zhlobin")).thenReturn(expectedCity);
 
         City actualCity = cityService.findCityByName("Zhlobin");
         assertEquals(expectedCity,actualCity);
@@ -47,7 +47,7 @@ class CityServiceImplTest {
 
 
 
-        when(cityDAO.getAllCityOrderByName()).thenReturn(expectedListCity);
+        when(cityRepository.getAllCityOrderByName()).thenReturn(expectedListCity);
 
         List<City> actualListCity = cityService.getAllCityOrderByName();
         assertEquals(expectedListCity,actualListCity);
@@ -69,7 +69,7 @@ class CityServiceImplTest {
 
 
 
-        when(cityDAO.getCitiesWithTails()).thenReturn(expectedListCity);
+        when(cityRepository.getCitiesWithTails()).thenReturn(expectedListCity);
 
         List<City> actualListCity = cityService.getCitiesWithTails();
         assertEquals(expectedListCity,actualListCity);

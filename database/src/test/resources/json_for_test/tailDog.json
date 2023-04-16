@@ -1,9 +1,0 @@
-{
-  "id": 2,
-  "type": "Dog",
-  "address": "18-9",
-  "creationDate": "2023-02-03T16:00:00.184000Z",
-  "modificationDate": "2023-02-03T16:00:00.184000Z",
-  "status": "ACTIVE",
-  "description": "test dog"
-}

@@ -5,9 +5,9 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.zagvladimir.configuration.GoogleCSConfig;
-import com.zagvladimir.dao.ImageDAOImpl;
-import com.zagvladimir.dao.TailDAOImpl;
 import com.zagvladimir.model.Image;
+import com.zagvladimir.repository.ImageRepository;
+import com.zagvladimir.repository.TailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -26,9 +26,9 @@ public class ImageServiceImpl implements ImageService {
 
   private final GoogleCSConfig googleCSConfig;
 
-  private final TailDAOImpl tailDAO;
+  private final TailRepository tailRepository;
 
-  private final ImageDAOImpl imageDAO;
+  private final ImageRepository imageRepository;
 
   @Override
   public String uploadFile(byte[] imageBytes, Integer tailId, String fileExt) {
@@ -46,7 +46,7 @@ public class ImageServiceImpl implements ImageService {
 
   @Override
   public List<URL> getUrls(Integer tailId) {
-    List<Image> images = imageDAO.findImagesByTailId(tailId);
+    List<Image> images = imageRepository.findImagesByTailId(tailId);
     return images.stream()
         .map(
             image ->
@@ -60,7 +60,7 @@ public class ImageServiceImpl implements ImageService {
   public void createImageInDB(String imageLink, Integer tailId) {
     Image newImage = new Image();
     newImage.setLink(imageLink);
-    newImage.setTail(tailDAO.findById(tailId).get());
-    imageDAO.create(newImage);
+    newImage.setTail(tailRepository.findById(tailId).get());
+    imageRepository.save(newImage);
   }
 }

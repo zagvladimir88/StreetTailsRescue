@@ -1,12 +1,12 @@
 package com.zagvladimir.service.user;
 
 
-import com.zagvladimir.dao.RoleDAO;
-import com.zagvladimir.dao.UserDAOImpl;
 import com.zagvladimir.model.Role;
 import com.zagvladimir.model.Tail;
 import com.zagvladimir.model.User;
 import com.zagvladimir.model.enums.Status;
+import com.zagvladimir.repository.RoleRepository;
+import com.zagvladimir.repository.UserRepository;
 import com.zagvladimir.service.mail.MailSenderService;
 import com.zagvladimir.util.UUIDGenerator;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +25,8 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
     private static final String ACTIVATION_URL =
             "http://localhost:8080/activate/%s/";
-    private final UserDAOImpl userDAO;
-    private final RoleDAO roleDAO;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final MailSenderService mailSenderService;
     private final UUIDGenerator uuidGenerator;
 
@@ -36,12 +36,12 @@ public class UserServiceImpl implements UserService {
     @SneakyThrows
     @Transactional
     public void register(User user) {
-        addRole(user, roleDAO.findRoleByName("ROLE_USER"));
+        addRole(user, roleRepository.findRoleByName("ROLE_USER"));
         user.setRegistrationDate(new Timestamp(new Date().getTime()));
         user.setStatus(Status.NOT_ACTIVE);
         user.setActivationCode(uuidGenerator.getUuid());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User newUser = userDAO.create(user);
+        User newUser = userRepository.save(user);
 
         if (newUser.getEmail() != null) {
             sendEmail(user);
@@ -50,20 +50,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Integer userID) {
-        return userDAO.findById(userID).orElseThrow(EntityNotFoundException::new);
+        return userRepository.findById(userID).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public Optional<User> findUserByLogin(String login) {
-        return userDAO.findUserByLogin(login);
+        return userRepository.findUserByLogin(login);
     }
 
     @Override
     public boolean activateUser(String code) {
-        Optional<User> user = userDAO.findUserByActivationCode(code);
+        Optional<User> user = userRepository.findUserByActivationCode(code);
         if (user.isPresent() && user.get().getStatus().equals(Status.NOT_ACTIVE)) {
             user.get().setStatus(Status.ACTIVE);
-            userDAO.update(user.get());
+            userRepository.save(user.get());
             return true;
         }
         return false;
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Tail> getAllTails(Integer userID) {
-        return userDAO.findById(userID)
+        return userRepository.findById(userID)
                 .filter(user -> user.getStatus() == Status.ACTIVE)
                 .map(User::getTails)
                 .map(ArrayList::new)
@@ -80,33 +80,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAll() {
-        return userDAO.findAll();
+        return userRepository.findAll();
     }
 
     @Override
     public void deleteUserById(Integer userId) {
-        userDAO.delete(userId);
+        userRepository.deleteById(userId);
     }
 
     @Override
     public void softDeleteUserById(Integer userId) {
-        var userForDelete = userDAO.findById(userId);
+        var userForDelete = userRepository.findById(userId);
         if (userForDelete.isPresent()) {
             userForDelete.get().setStatus(Status.DELETED);
-            userDAO.update(userForDelete.get());
+            userRepository.save(userForDelete.get());
         }
     }
 
     @Override
     public Boolean isUserAdmin(String login) {
-        var rolesByUserLogin = roleDAO.findRolesByUserLogin(login);
-        var admin = roleDAO.findRoleByName("ROLE_ADMIN");
+        var rolesByUserLogin = roleRepository.findRolesByUserLogin(login);
+        var admin = roleRepository.findRoleByName("ROLE_ADMIN");
         return rolesByUserLogin.contains(admin);
     }
 
     @Override
     public boolean isBanned(Integer userID) {
-        var user = userDAO.findById(userID);
+        var user = userRepository.findById(userID);
         if(user.isPresent()) {
             return user.get().getStatus().equals(Status.BANNED);
         }
@@ -115,10 +115,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void banUser(Integer userID) {
-        Optional<User> user = userDAO.findById(userID);
+        Optional<User> user = userRepository.findById(userID);
         if (user.isPresent()) {
             user.get().setStatus(Status.BANNED);
-            userDAO.update(user.get());
+            userRepository.save(user.get());
         }
     }
 

@@ -1,8 +1,8 @@
 package com.zagvladimir.service.tail;
 
-import com.zagvladimir.dao.TailDAO;
 import com.zagvladimir.model.Tail;
 import com.zagvladimir.model.enums.Status;
+import com.zagvladimir.repository.TailRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 class TailServiceImplTest {
 
     @Mock
-    private TailDAO tailDAO;
+    private TailRepository tailRepository;
 
     @InjectMocks
     private TailServiceImpl tailService;
@@ -53,11 +53,11 @@ class TailServiceImplTest {
         expectedTails.add(TAIL_DOG);
         expectedTails.add(TAILKITTEN);
 
-        when(tailDAO.findAll()).thenReturn(expectedTails);
+        when(tailRepository.findAll()).thenReturn(expectedTails);
 
         List<Tail> actualTails = tailService.findAll();
 
-        verify(tailDAO, times(1)).findAll();
+        verify(tailRepository, times(1)).findAll();
         assertEquals(expectedTails, actualTails);
     }
 
@@ -66,7 +66,7 @@ class TailServiceImplTest {
         Tail expectedTail = new Tail();
         expectedTail.setType("CAT");
 
-        when(tailDAO.findById(any(Integer.class))).thenReturn(Optional.of(expectedTail));
+        when(tailRepository.findById(any(Integer.class))).thenReturn(Optional.of(expectedTail));
 
         Tail actualTail = tailService.findById(2);
         assertEquals(expectedTail, actualTail);
@@ -79,11 +79,11 @@ class TailServiceImplTest {
         tails.add(TAIL_DOG);
         tails.add(TAILKITTEN);
 
-        when(tailDAO.findAll()).thenReturn(tails);
+        when(tailRepository.findAll()).thenReturn(tails);
 
         List<Tail> activeTails = tailService.findAllWithStatusActive();
 
-        verify(tailDAO, times(1)).findAll();
+        verify(tailRepository, times(1)).findAll();
 
         List<Tail> expectedTails = new ArrayList<>();
         expectedTails.add(TAIL_CAT);
@@ -98,7 +98,7 @@ class TailServiceImplTest {
         createdTail.setId(2);
         Integer expectedId = 2;
 
-        when(tailDAO.create(any(Tail.class))).thenReturn(createdTail);
+        when(tailRepository.save(any(Tail.class))).thenReturn(createdTail);
 
         Integer actualTailId = tailService.create(createdTail);
         assertEquals(expectedId, actualTailId);
@@ -110,13 +110,13 @@ class TailServiceImplTest {
         updatedTail.setType("CAT");
         updatedTail.setId(2);
 
-        when(tailDAO.findById(any(Integer.class))).thenReturn(Optional.of(updatedTail));
-        when(tailDAO.update(updatedTail)).thenReturn(updatedTail);
+        when(tailRepository.findById(any(Integer.class))).thenReturn(Optional.of(updatedTail));
+        when(tailRepository.save(updatedTail)).thenReturn(updatedTail);
 
         tailService.softDeleteTailById(2);
 
-        verify(tailDAO, Mockito.times(1)).findById(2);
-        verify(tailDAO, Mockito.times(1)).update(updatedTail);
+        verify(tailRepository, Mockito.times(1)).findById(2);
+        verify(tailRepository, Mockito.times(1)).save(updatedTail);
     }
 
     @Test
@@ -124,6 +124,6 @@ class TailServiceImplTest {
         Integer tailId = 2;
         tailService.deleteById(tailId);
 
-        verify(tailDAO, Mockito.times(1)).delete(tailId);
+        verify(tailRepository, Mockito.times(1)).deleteById(tailId);
     }
 }
